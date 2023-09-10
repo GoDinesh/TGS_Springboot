@@ -24,6 +24,7 @@ public class Registration {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	//Init
 	//Student details
 	//@Size(min=3, max=50, message="Length Student Name must be 3 - 50 character")
 	//@NotBlank(message="Student Name Code Can't be blank")

@@ -20,7 +20,6 @@ public class AppConfig {
 //		UserDetails user1 =  User.builder().username("user").password(passwordEncoder().encode("user")).roles("USER").build();
 //		
 //		return new InMemoryUserDetailsManager(user, user1); 
-	// shubhanshu
 //	}
 	
 	@Bean

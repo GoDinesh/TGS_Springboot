@@ -45,10 +45,10 @@ public class AuthController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
-System.out.println(token);
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
                 .username(userDetails.getUsername()).build();
+        		
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

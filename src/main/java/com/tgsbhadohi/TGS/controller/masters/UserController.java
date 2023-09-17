@@ -20,7 +20,7 @@ import com.tgsbhadohi.TGS.service.masters.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/master/user")
 public class UserController {
 
 	@Autowired
@@ -28,21 +28,28 @@ public class UserController {
 //	@Autowired
 //	private CustomUserDetailsService customUserdetailService;
 	
-	@PostMapping("/create-user")
+	@PostMapping("/insert")
 	public ResponseEntity<ResponseModel> CreateUser(@Valid @RequestBody User user ) {
 		userService.createUser(user);
 		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true , null );
 		return new ResponseEntity<>(res, HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/findall")
+	public ResponseEntity<ResponseModel> findAll() {
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false , userService.getAllUser() );
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
 	@GetMapping("/current-user")
 	public String getLoggedInUser(Principal principal) {
 		return principal.getName();
 	}
-//	public ResponseEntity<ResponseModel> getUserById(@Valid @RequestBody String userName ) {
-//		User user = customUserdetailService.loadUserByUsername(userName);
-//		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true , null );
-//		return new ResponseEntity<>(res, HttpStatus.CREATED);
-//	}
+	
+	@PostMapping("/findbyid")
+	public ResponseEntity<ResponseModel> getUserById(@Valid @RequestBody String userName ) {
+		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, false , userService.getUserByName(userName) );
+		return new ResponseEntity<>(res, HttpStatus.CREATED);
+	}
 	
 }

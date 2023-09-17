@@ -5,10 +5,13 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -41,6 +44,18 @@ public class User implements UserDetails {
 	@NotBlank(message="Role can't be blank")
 	private String role;
 	
+	private String groupid;
+	
+	@NotBlank(message="Name can't be blank")
+	private String name;
+	
+	private String active;
+	
+	private AssignPermission permission;
+	
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "groupid", referencedColumnName = "id")
+//	private AssignPermission permission;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

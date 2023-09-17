@@ -41,7 +41,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(
         		auth -> auth.requestMatchers("/home/**").authenticated()
         		.requestMatchers("/auth/login").permitAll()
-        		.requestMatchers("/auth/create-user").permitAll()
+        		.requestMatchers("/user/insert").permitAll()
         		.anyRequest().permitAll())
         .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

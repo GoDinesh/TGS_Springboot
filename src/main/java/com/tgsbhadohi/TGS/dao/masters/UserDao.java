@@ -10,5 +10,5 @@ import com.tgsbhadohi.TGS.entities.masters.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
 	
-	public Optional<User> findByEmail(String email);
+	public User findByEmail(String email);
 }

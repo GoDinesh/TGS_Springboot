@@ -6,12 +6,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -51,11 +55,8 @@ public class User implements UserDetails {
 	
 	private String active;
 	
-	private AssignPermission permission;
-	
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "groupid", referencedColumnName = "id")
-//	private AssignPermission permission;
+	@Transient
+	private AssignPermission userPermission;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

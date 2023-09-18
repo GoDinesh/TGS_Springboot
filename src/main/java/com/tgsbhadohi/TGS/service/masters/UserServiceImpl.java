@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.tgsbhadohi.TGS.dao.masters.AssignPermissionDao;
 import com.tgsbhadohi.TGS.dao.masters.UserDao;
 import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
+import com.tgsbhadohi.TGS.entities.masters.AssignPermission;
 import com.tgsbhadohi.TGS.entities.masters.User;
 
 @Service
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private AssignPermissionDao assignPermissionDao;
 	
 	
 	
@@ -42,7 +47,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getUserByName(String email) {
 		List<User> user = new ArrayList<User>();
-		user.add(userDao.findByEmail(email));
+		User searchUser = userDao.findByEmail(email);
+		if(searchUser!=null) {
+			searchUser.setUserPermission(assignPermissionDao.findByGroupid(searchUser.getGroupid()));
+		}
+		user.add(searchUser);		
 		return user;
 	}
 

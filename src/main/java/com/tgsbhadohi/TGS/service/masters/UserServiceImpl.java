@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.tgsbhadohi.TGS.dao.masters.AssignPermissionDao;
 import com.tgsbhadohi.TGS.dao.masters.UserDao;
 import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
+import com.tgsbhadohi.TGS.entities.masters.AssignPermission;
 import com.tgsbhadohi.TGS.entities.masters.User;
 
 @Service
@@ -38,13 +40,12 @@ public class UserServiceImpl implements UserService{
 		}
 		return data;
 	}
-
+//
 	@Override
 	public List<User> getUserByName(String email) {
 		List<User> user = new ArrayList<User>();
 		user.add(userDao.findByEmail(email));
 		return user;
 	}
-
-
 }
+

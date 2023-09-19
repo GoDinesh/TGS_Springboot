@@ -7,5 +7,5 @@ import com.tgsbhadohi.TGS.entities.masters.AssignPermission;
 
 @Repository
 public interface AssignPermissionDao extends JpaRepository<AssignPermission, Long>{
-
+	
 }

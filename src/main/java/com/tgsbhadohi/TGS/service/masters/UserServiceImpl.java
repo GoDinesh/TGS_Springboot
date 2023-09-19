@@ -22,6 +22,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private AssignPermissionDao assignPermissionDao;
+	
 	
 	
 	@Override
@@ -44,7 +47,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getUserByName(String email) {
 		List<User> user = new ArrayList<User>();
-		user.add(userDao.findByEmail(email));
+		User searchUser = userDao.findByEmail(email);
+		if(searchUser!=null) {
+			searchUser.setUserPermission(assignPermissionDao.findByGroupid(searchUser.getGroupid()));
+		}
+		user.add(searchUser);		
 		return user;
 	}
 }

@@ -15,15 +15,24 @@ public class CustomUserDetailService implements UserDetailsService {
 	@Autowired
 	private UserDao userDao; 
 	
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//		// load user from database
+//		try {
+//			User user = userDao.findByEmail(username);
+//			return user;
+//		}catch(Exception ex) {
+//			return null;
+//		}
+//	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// load user from database
-		try {
-			User user = userDao.findByEmail(username);
-			return user;
-		}catch(Exception ex) {
-			return null;
-		}
+	    User user = userDao.findByEmail(username);
+	    if (user == null) {
+	        throw new UsernameNotFoundException("User not found");
+	    }
+	    return user;
 	}
 	
 

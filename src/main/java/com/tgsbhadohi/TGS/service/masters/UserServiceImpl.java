@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService{
 		}
 		return data;
 	}
-
+//
 	@Override
 	public List<User> getUserByName(String email) {
 		List<User> user = new ArrayList<User>();
@@ -54,6 +54,5 @@ public class UserServiceImpl implements UserService{
 		user.add(searchUser);		
 		return user;
 	}
-
-
 }
+

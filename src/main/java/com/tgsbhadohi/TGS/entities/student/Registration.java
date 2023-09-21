@@ -1,10 +1,20 @@
 package com.tgsbhadohi.TGS.entities.student;
 
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
+import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,6 +34,8 @@ public class Registration {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	private int rollNumber;
 	//Init
 	//Student details
 	//@Size(min=3, max=50, message="Length Student Name must be 3 - 50 character")
@@ -56,6 +68,7 @@ public class Registration {
 	private String category;   
 	
 	//@NotBlank(message="Registration Number Can't be blank")
+	@Column(unique = true)
 	private String registrationNo;
 	
 	//Parent Info
@@ -131,4 +144,13 @@ public class Registration {
 	
 	//@Size(min=2, max=100, message="Length of school address must be 2 - 100 character")
 	private String schoolAddress;
+	
+	@OneToOne(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
+	private UploadedProfileImage profileImage;
+	
+//	@OneToMany(mappedBy="registrationNo")
+//	private Set<UploadedDocuments> documents;
+	
+	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
+	private List<UploadedDocuments> documents;
 }

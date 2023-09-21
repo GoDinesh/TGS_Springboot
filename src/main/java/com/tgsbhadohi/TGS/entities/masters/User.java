@@ -48,6 +48,7 @@ public class User implements UserDetails {
 	@NotBlank(message="Role can't be blank")
 	private String role;
 	
+//	@Column(name = "groupid", insertable = false, updatable = false)
 	private String groupid;
 	
 	@NotBlank(message="Name can't be blank")

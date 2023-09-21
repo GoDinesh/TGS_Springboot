@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.student.RegistrationDao;
-import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 
 import jakarta.persistence.EntityManager;
@@ -18,7 +17,7 @@ import jakarta.persistence.Query;
 @Service
 public class RegistrationImpl implements RegistrationService {
 	@PersistenceContext
-	EntityManager em;
+	EntityManager entityManager;
 	
 	@Autowired
 	private RegistrationDao registrationDao;
@@ -58,13 +57,28 @@ public class RegistrationImpl implements RegistrationService {
 			query = query +" student_name like '%"+registration.getStudentName()+"%' and";
 		
 		query= query+" 1";
-		Query qry = em.createNativeQuery(query,Registration.class);
+		Query qry = entityManager.createNativeQuery(query,Registration.class);
 
 		List<Registration> studentList = qry.getResultList();
         return studentList;
 	}catch (Exception e) {}
 		
 	return null;
-}
+	}
+	
+	
+	@Override
+	public Integer getRollNumber(Registration registration) {
+	try {
+//		String query = "SELECT COALESCE(max(roll_number+1) , 1 ) as roll_number from registration where academic_year_code='"+registration.getAcademicYearCode()+"' and standard='"+registration.getStandard()+"'";
+//		Query qry = entityManager.createNativeQuery(query,Registration.class);
+//
+//		Integer rollnumber = (Integer) qry.getSingleResult();
+//		return rollnumber;
+		int rollnumber = registrationDao.getRollNumber(registration.getAcademicYearCode(), registration.getStandard());
+		return rollnumber;
+	}catch (Exception e) {}
+	return null;
+	}
 	
 }

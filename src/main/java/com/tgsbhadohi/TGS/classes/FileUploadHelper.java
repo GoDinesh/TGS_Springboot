@@ -26,6 +26,7 @@ public class FileUploadHelper {
 	public boolean uploadfile(MultipartFile file) {
 		boolean flag = false;
 		try {
+			System.out.println(Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename() ));
 			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
 			flag = true;
 		}catch (Exception e) {

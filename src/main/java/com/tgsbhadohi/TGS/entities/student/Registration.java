@@ -3,6 +3,7 @@ package com.tgsbhadohi.TGS.entities.student;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
@@ -145,12 +146,13 @@ public class Registration {
 	//@Size(min=2, max=100, message="Length of school address must be 2 - 100 character")
 	private String schoolAddress;
 	
+	@JsonManagedReference
 	@OneToOne(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private UploadedProfileImage profileImage;
 	
 //	@OneToMany(mappedBy="registrationNo")
 //	private Set<UploadedDocuments> documents;
-	
+	@JsonManagedReference
 	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private List<UploadedDocuments> documents;
 }

@@ -70,15 +70,17 @@ public class RegistrationImpl implements RegistrationService {
 	@Override
 	public Integer getRollNumber(Registration registration) {
 	try {
-//		String query = "SELECT COALESCE(max(roll_number+1) , 1 ) as roll_number from registration where academic_year_code='"+registration.getAcademicYearCode()+"' and standard='"+registration.getStandard()+"'";
-//		Query qry = entityManager.createNativeQuery(query,Registration.class);
-//
-//		Integer rollnumber = (Integer) qry.getSingleResult();
-//		return rollnumber;
 		int rollnumber = registrationDao.getRollNumber(registration.getAcademicYearCode(), registration.getStandard());
 		return rollnumber;
 	}catch (Exception e) {}
 	return null;
 	}
+
+	@Override
+	public List<Registration> filterListByKeyword(String keyword) {
+		return registrationDao.filterListByKeyword(keyword);
+	}
+	
+	
 	
 }

@@ -31,6 +31,7 @@ public class UploadedDocuments {
 //    @JoinColumn( name="registrationNo", nullable=false)
 //	private String registrationNo;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
 	private Registration userRegistrationNo;

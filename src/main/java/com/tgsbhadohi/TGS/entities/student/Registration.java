@@ -145,12 +145,14 @@ public class Registration {
 	//@Size(min=2, max=100, message="Length of school address must be 2 - 100 character")
 	private String schoolAddress;
 	
+	@JsonManagedReference
 	@OneToOne(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private UploadedProfileImage profileImage;
 	
 //	@OneToMany(mappedBy="registrationNo")
 //	private Set<UploadedDocuments> documents;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private List<UploadedDocuments> documents;
 }

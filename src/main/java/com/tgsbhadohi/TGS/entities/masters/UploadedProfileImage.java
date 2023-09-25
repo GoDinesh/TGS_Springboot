@@ -28,6 +28,7 @@ public class UploadedProfileImage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
 	private Registration userRegistrationNo;

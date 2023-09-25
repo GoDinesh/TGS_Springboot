@@ -26,6 +26,13 @@ public class AssignPermissionImpl implements AssignPermissionService {
 		data.add(assignPermissionDao.save(assignPermission));
 		return data;
 	}
+	
+	@Override
+	public List<AssignPermission> getAssignPermissionById(String groupId) {
+		List<AssignPermission> data = new ArrayList<AssignPermission>();
+		data.add(assignPermissionDao.findByGroupid(groupId));
+		return data;
+	}
 
 	
 }

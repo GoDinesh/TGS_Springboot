@@ -152,6 +152,7 @@ public class Registration {
 	
 //	@OneToMany(mappedBy="registrationNo")
 //	private Set<UploadedDocuments> documents;
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private List<UploadedDocuments> documents;

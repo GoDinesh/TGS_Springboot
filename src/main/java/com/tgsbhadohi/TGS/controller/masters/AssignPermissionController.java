@@ -35,4 +35,10 @@ public class AssignPermissionController {
 			ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,assignPermissionService.saveAssignPermission(assignPermission));
 			return new ResponseEntity<>(res, HttpStatus.CREATED);
 		}
+		
+		@PostMapping("/findbyid")
+		private ResponseEntity<ResponseModel> getAssignPermissionById(@Valid @RequestBody String roleId) {
+			ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, false ,assignPermissionService.getAssignPermissionById(roleId));
+			return new ResponseEntity<>(res, HttpStatus.CREATED);
+		}
 }

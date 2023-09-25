@@ -8,5 +8,5 @@ public interface AssignPermissionService {
 
 	public List<AssignPermission> getAllAssignPermission(); 
 	public List<AssignPermission> saveAssignPermission(AssignPermission assignPermission);
-	
+	public List<AssignPermission> getAssignPermissionById(String groupId);	
 }

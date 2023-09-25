@@ -30,13 +30,15 @@ public class FileUploadHelper {
 			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
 			flag = true;
 		}catch (Exception e) {
-			 
+			System.out.println("File upload failed: " + e.getMessage());
 		}
 		return flag;
 	}
 	
 	public String generatelinkForImage(MultipartFile file) {
-		return ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(file.getOriginalFilename()).toUriString();
+		String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(file.getOriginalFilename()).toUriString();
+		System.out.println(temp);            
+		return temp;
 		
 	}
 }

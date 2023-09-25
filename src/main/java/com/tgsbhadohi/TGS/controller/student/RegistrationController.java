@@ -81,7 +81,7 @@ public class RegistrationController {
 			    	  boolean flag = fileUploadHelper.uploadfile(doc);
 			    	  if(flag) {
 			    			document.setLink(fileUploadHelper.generatelinkForImage(doc));
-							document.setFileName(file.getOriginalFilename());
+							document.setFileName(doc.getOriginalFilename());
 							document.setUserRegistrationNo(tempRegistration);
 					  }
 			    	  documentList.add(document);		    	  

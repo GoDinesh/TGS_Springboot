@@ -10,4 +10,5 @@ public interface RegistrationService {
 	public List<Registration> saveRegistration(Registration registration);
 	public List<Registration> search(Registration registration);
 	public Integer getRollNumber(Registration registration);
+	public List<Registration> filterListByKeyword(String keyword); 
 }

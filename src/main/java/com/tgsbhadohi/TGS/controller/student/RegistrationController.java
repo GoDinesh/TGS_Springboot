@@ -129,6 +129,11 @@ public class RegistrationController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
+	@PostMapping("/filter-by-keyword")
+	private ResponseEntity<ResponseModel> filterListByKeyword(@RequestBody String inputString){
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false ,registrationService.filterListByKeyword(inputString));
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
 	
 	
 

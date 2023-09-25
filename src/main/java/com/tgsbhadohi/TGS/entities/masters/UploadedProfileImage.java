@@ -1,5 +1,6 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 
@@ -8,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +28,7 @@ public class UploadedProfileImage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
 	private Registration userRegistrationNo;

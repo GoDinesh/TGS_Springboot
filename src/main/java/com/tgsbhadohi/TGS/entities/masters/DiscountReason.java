@@ -22,7 +22,7 @@ import lombok.ToString;
 public class DiscountReason {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private long discountReasonCode;
 	
 	@Size(min=3, max=50, message="Length of Discount Reason must be 3 - 8 character")
 	@NotBlank(message="Discount Reason Can't be blank")

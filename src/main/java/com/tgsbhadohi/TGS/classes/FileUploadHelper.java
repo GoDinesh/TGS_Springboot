@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.tgsbhadohi.TGS.entities.student.Registration;
+
 @Component
 public class FileUploadHelper {
 
@@ -23,11 +25,36 @@ public class FileUploadHelper {
 		
 	}
 	
-	public boolean uploadfile(MultipartFile file) {
+	public boolean uploadfile(MultipartFile file, Registration reg, boolean singleUpload) {
 		boolean flag = false;
 		try {
-			System.out.println(Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename() ));
-			Files.copy(file.getInputStream(),Paths.get(UPLOAD_DIR+File.separator+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
+			
+				//System.out.println(Paths.get(UPLOAD_DIR+File.separator+reg.getRegistrationNo()+File.separator+file.getOriginalFilename() ));
+				String PATH = "";
+				if(singleUpload) {
+					PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"ProfileImage";
+				}else {
+					PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"Documents";
+				}
+			    String directoryName = PATH;
+			    
+
+			    File directory = new File(directoryName);
+			    if (! directory.exists()){
+			        directory.mkdirs();
+			        // If you require it to make the entire directory path including parents,
+			        // use directory.mkdirs(); here instead.
+			    }
+
+			    //File file = new File(directoryName + "/" + fileName);
+			    try{
+			    	Files.copy(file.getInputStream(),Paths.get(PATH+File.separator+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
+			    }
+			    catch (IOException e){
+			        e.printStackTrace();
+			        System.exit(-1);
+			    }
+			//Files.copy(file.getInputStream(),Paths.get(PATH+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
 			flag = true;
 		}catch (Exception e) {
 			System.out.println("File upload failed: " + e.getMessage());
@@ -35,8 +62,15 @@ public class FileUploadHelper {
 		return flag;
 	}
 	
-	public String generatelinkForImage(MultipartFile file) {
-		String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(file.getOriginalFilename()).toUriString();
+	public String generatelinkForImage(MultipartFile file, Registration reg, boolean singleUpload) {
+		String PATH = "";
+		if(singleUpload) {
+			PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"ProfileImage/";
+		}else {
+			PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"Documents/";
+		}
+	   
+		String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path(PATH).path(file.getOriginalFilename()).toUriString();
 		System.out.println(temp);            
 		return temp;
 		

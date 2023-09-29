@@ -1,8 +1,8 @@
-package com.tgsbhadohi.TGS.service.masters;
+package com.tgsbhadohi.TGS.service.authorization;
 
 import java.util.List;
 
-import com.tgsbhadohi.TGS.entities.masters.User;
+import com.tgsbhadohi.TGS.entities.authorization.User;
 
 public interface UserService {
 	public List<User> createUser(User user);

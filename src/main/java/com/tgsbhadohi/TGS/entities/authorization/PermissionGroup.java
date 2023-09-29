@@ -1,4 +1,4 @@
-package com.tgsbhadohi.TGS.entities.masters;
+package com.tgsbhadohi.TGS.entities.authorization;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

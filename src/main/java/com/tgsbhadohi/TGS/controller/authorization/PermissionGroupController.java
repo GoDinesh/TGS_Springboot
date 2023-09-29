@@ -1,4 +1,4 @@
-package com.tgsbhadohi.TGS.controller.masters;
+package com.tgsbhadohi.TGS.controller.authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tgsbhadohi.TGS.classes.Constants;
 import com.tgsbhadohi.TGS.classes.ResponseModel;
+import com.tgsbhadohi.TGS.entities.authorization.PermissionGroup;
 import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
-import com.tgsbhadohi.TGS.entities.masters.PermissionGroup;
-import com.tgsbhadohi.TGS.service.masters.PermissionGroupService;
+import com.tgsbhadohi.TGS.service.authorization.PermissionGroupService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/master/permission-group")
+@RequestMapping("/auth/permission-group")
 public class PermissionGroupController {
 	
 	@Autowired

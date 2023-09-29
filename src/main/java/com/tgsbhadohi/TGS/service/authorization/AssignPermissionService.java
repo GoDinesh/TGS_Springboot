@@ -1,8 +1,8 @@
-package com.tgsbhadohi.TGS.service.masters;
+package com.tgsbhadohi.TGS.service.authorization;
 
 import java.util.List;
 
-import com.tgsbhadohi.TGS.entities.masters.AssignPermission;
+import com.tgsbhadohi.TGS.entities.authorization.AssignPermission;
 
 public interface AssignPermissionService {
 

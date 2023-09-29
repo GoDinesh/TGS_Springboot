@@ -33,4 +33,5 @@ public class FeesStructure {
     private double registrationFees;
     private double annualFees;
     private String annualFeesDate;	
+    private boolean active;
 }

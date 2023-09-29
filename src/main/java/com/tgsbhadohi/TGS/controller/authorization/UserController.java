@@ -1,4 +1,4 @@
-package com.tgsbhadohi.TGS.controller.masters;
+package com.tgsbhadohi.TGS.controller.authorization;
 
 import java.security.Principal;
 
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tgsbhadohi.TGS.classes.Constants;
 import com.tgsbhadohi.TGS.classes.ResponseModel;
-import com.tgsbhadohi.TGS.entities.masters.User;
-import com.tgsbhadohi.TGS.service.masters.UserService;
+import com.tgsbhadohi.TGS.entities.authorization.User;
+import com.tgsbhadohi.TGS.service.authorization.UserService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/master/user")
+@RequestMapping("/auth/user")
 public class UserController {
 
 	@Autowired

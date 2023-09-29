@@ -67,8 +67,8 @@ public class RegistrationController {
 		final Registration tempRegistration;
 		Registration registration = new Registration();
 		try {
-					
-					
+			
+			
 					//change string to Registration object
 					ObjectMapper mapper = new ObjectMapper(); 
 					registration = mapper.readValue(reqData, Registration.class);
@@ -78,9 +78,9 @@ public class RegistrationController {
 				  List<UploadedDocuments> documentList = new ArrayList<UploadedDocuments>();
 				  Arrays.asList(documentUpload).stream().forEach(doc -> {
 			    	  UploadedDocuments document = new UploadedDocuments();
-			    	  boolean flag = fileUploadHelper.uploadfile(doc);
+			    	  boolean flag = fileUploadHelper.uploadfile(doc, tempRegistration, false);
 			    	  if(flag) {
-			    			document.setLink(fileUploadHelper.generatelinkForImage(doc));
+			    			document.setLink(fileUploadHelper.generatelinkForImage(doc, tempRegistration, false));
 							document.setFileName(doc.getOriginalFilename());
 							document.setUserRegistrationNo(tempRegistration);
 					  }
@@ -92,9 +92,9 @@ public class RegistrationController {
 			
 		    //Upload profile image
 			UploadedProfileImage uploadedProfileImage = new UploadedProfileImage();
-			boolean flag = fileUploadHelper.uploadfile(file);
+			boolean flag = fileUploadHelper.uploadfile(file, tempRegistration, true);
 			if(flag) {
-				String urlString = fileUploadHelper.generatelinkForImage(file);
+				String urlString = fileUploadHelper.generatelinkForImage(file, tempRegistration, true);
 				uploadedProfileImage.setLink(urlString);
 				uploadedProfileImage.setFileName(file.getOriginalFilename());
 				uploadedProfileImage.setUserRegistrationNo(registration);

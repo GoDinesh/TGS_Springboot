@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.tgsbhadohi.TGS.dao.masters.UserDao;
-import com.tgsbhadohi.TGS.entities.masters.User;
+import com.tgsbhadohi.TGS.dao.authorization.UserDao;
+import com.tgsbhadohi.TGS.entities.authorization.User;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {

@@ -3,6 +3,7 @@ package com.tgsbhadohi.TGS.entities.masters;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class UploadedDocuments {
 //	private String registrationNo;
 	
 	@JsonBackReference
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
 	private Registration userRegistrationNo;
 	

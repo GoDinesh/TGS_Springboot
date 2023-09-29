@@ -1,4 +1,4 @@
-package com.tgsbhadohi.TGS.service.masters;
+package com.tgsbhadohi.TGS.service.authorization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tgsbhadohi.TGS.dao.masters.PermissionGroupDao;
-import com.tgsbhadohi.TGS.entities.masters.PermissionGroup;
+import com.tgsbhadohi.TGS.dao.authorization.PermissionGroupDao;
+import com.tgsbhadohi.TGS.entities.authorization.PermissionGroup;
 
 @Service
 public class PermissionGroupImpl implements PermissionGroupService {

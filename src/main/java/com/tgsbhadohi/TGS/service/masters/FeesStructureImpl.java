@@ -26,4 +26,9 @@ public class FeesStructureImpl implements FeesStructureService{
 		data.add(feesStructureDao.save(feesStructure));
 		return data;
 	}
+
+	@Override
+	public List<FeesStructure> getFeeStructureById(FeesStructure feesStructure) {
+		return feesStructureDao.findByAcademicYearCodeAndClassCode(feesStructure.getAcademicYearCode(), feesStructure.getClassCode());
+	}
 }

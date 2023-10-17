@@ -1,9 +1,15 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +25,7 @@ import lombok.ToString;
 public class FeesStructure {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long feeStructureId;
 	private String classCode;
     private String enrollmentType;
     private String academicYearCode;
@@ -29,9 +35,18 @@ public class FeesStructure {
     private String remarks;
     private double totalFees;
     private double discountReasonCode;
+    private double discountAmount;
     private double netAmountAfterDiscount;
     private double registrationFees;
     private double annualFees;
     private String annualFeesDate;	
     private boolean active;
+    
+    private double lumpsumAmount;
+    
+    @JsonManagedReference
+	@OneToMany(mappedBy="feeStructureId" , cascade = CascadeType.ALL)   
+    private List<Installment> installment;
+    
+    
 }

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tgsbhadohi.TGS.entities.fees.StudentFeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.Standard;
 import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
@@ -153,12 +154,11 @@ public class Registration {
 	@OneToOne(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private UploadedProfileImage profileImage;
 	
-//	@OneToMany(mappedBy="registrationNo")
-//	private Set<UploadedDocuments> documents;
-	
 	@JsonManagedReference
 	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
 	private List<UploadedDocuments> documents;
 	
-	
+	@JsonManagedReference
+	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
+	private List<StudentFeesStructure> studentFeesStructure;
 }

@@ -37,7 +37,7 @@ public class FeesStructureController {
 	
 	@PostMapping("/findbyid")
 	private ResponseEntity<ResponseModel> getFeeStructureById(@Valid @RequestBody FeesStructure feesStructure) {
-		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, false ,feesStructureService.getFeeStructureById(feesStructure));
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false,feesStructureService.getFeeStructureById(feesStructure));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	

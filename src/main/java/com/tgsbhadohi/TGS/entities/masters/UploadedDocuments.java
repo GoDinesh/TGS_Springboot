@@ -33,7 +33,8 @@ public class UploadedDocuments {
 //	private String registrationNo;
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
+//	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
 	private Registration userRegistrationNo;
 	

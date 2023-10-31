@@ -25,12 +25,14 @@ import lombok.ToString;
 @Entity
 public class UploadedProfileImage {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private long id;
 	
+	@Id
 	@JsonBackReference
-	@OneToOne(cascade = CascadeType.ALL)
+//	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
 	private Registration userRegistrationNo;
 	

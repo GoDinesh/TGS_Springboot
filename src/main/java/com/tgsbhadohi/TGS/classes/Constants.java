@@ -11,5 +11,6 @@ public class Constants {
 	
 	public static final String REQUEST_METHOD_NOT_SUPPORTED = "Request method not supported";
 	public static final String SERVICE_NOT_AVAILABLE = "Service not available";
+	public static final String FAILURE = "FAILURE";
 	
 }

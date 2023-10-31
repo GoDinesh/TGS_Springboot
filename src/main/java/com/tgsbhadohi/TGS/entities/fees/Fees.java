@@ -28,7 +28,5 @@ public class Fees {
 	private String paymentMode;
 	private Double amount;
 	private Date   paymentDate;
-	private String discountReasonCode;
-	private Double discountAmount;
 	private String paymentReceivedBy;
 }

@@ -1,7 +1,10 @@
-package com.tgsbhadohi.TGS.entities.masters;
+package com.tgsbhadohi.TGS.entities.fees;
+
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tgsbhadohi.TGS.entities.student.Registration;
+import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
+import com.tgsbhadohi.TGS.entities.masters.Installment;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -22,19 +25,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-public class UploadedDocuments {
-
+public class StudentFeesInstallment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	private String classCode;
+	private String academicYearCode;
+	private String installmentNumber;
+	private String installmentDate;
+	private Integer installmentAmount;
+	private String discountReason;
+	private Integer discountAmount;
+	
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
-	private Registration userRegistrationNo;
-	
-	private String fileName;	
-	
-	private String link;	
-	
+	@JoinColumn( name="studentFeeStructureId", referencedColumnName="studentFeeStructureId")
+	private StudentFeesStructure studentFeeStructureId;
 }

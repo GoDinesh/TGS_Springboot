@@ -3,11 +3,12 @@ package com.tgsbhadohi.TGS.controller.student;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.catalina.valves.JsonAccessLogValve;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
-import org.springframework.boot.json.JsonParserFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,21 +29,26 @@ import com.tgsbhadohi.TGS.entities.fees.StudentFeesInstallment;
 import com.tgsbhadohi.TGS.entities.fees.StudentFeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.Installment;
+import com.tgsbhadohi.TGS.dao.student.UploadedDocumentsDao;
 import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 import com.tgsbhadohi.TGS.service.masters.FeesStructureService;
 import com.tgsbhadohi.TGS.service.student.RegistrationService;
 
+import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/student")
 public class RegistrationController {
-	
+
 	@Autowired
 	private RegistrationService registrationService;
-	
+
+	@Autowired
+	private UploadedDocumentsDao uploadedDocumentsDao;
+
 	@Autowired
 	private FileUploadHelper fileUploadHelper;
 	
@@ -54,33 +60,29 @@ public class RegistrationController {
 		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false ,registrationService.getAllRegistration(registration));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
-	private ResponseEntity<ResponseModel> getRegistrationById(@PathVariable String id){
-		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false ,registrationService.getRegistrationById(Long.parseLong(id)));
+	private ResponseEntity<ResponseModel> getRegistrationById(@PathVariable String id) {
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD, Constants.SUCCESS, false,
+				registrationService.getRegistrationById(Long.parseLong(id)));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/registration")
 	private ResponseEntity<ResponseModel> saveRegistration(@Valid @RequestBody Registration registration) {
-//		FeesStructure feesStructure = new FeesStructure();
-//		feesStructure.setAcademicYearCode(registration.getAcademicYearCode());
-//		feesStructure.setClassCode(registration.getStandard());
-//		//feesStructureService.getFeeStructureById(feesStructure);
-//		StudentFeesStructure studentFeesStructure = new StudentFeesStructure();
-//		studentFeesStructure = feesStructureService.getFeeStructureById(feesStructure);
-//		
-//		registration.setStudentFeesStructure(feesStructureService.getFeeStructureById(feesStructure));
+
 		
 		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,registrationService.saveRegistration(registration));
 		return new ResponseEntity<>(res, HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/upload-image")
 	private ResponseEntity<ResponseModel> uploadImage(@RequestParam("profileImage") MultipartFile file,
-			@RequestParam("requestData") String reqData,  @RequestParam("documentUpload[]") MultipartFile[] documentUpload) {
-		
+			@RequestParam("requestData") String reqData,
+			@RequestParam("documentUpload[]") MultipartFile[] documentUpload) {
+
 		final Registration tempRegistration;
+
 		Registration registration = new Registration();
 		try {
 					//change string to Registration object
@@ -142,58 +144,75 @@ public class RegistrationController {
 			    			document.setLink(fileUploadHelper.generatelinkForImage(doc, tempRegistration, false));
 							document.setFileName(doc.getOriginalFilename());
 							document.setUserRegistrationNo(tempRegistration);
-					  }
-			    	  documentList.add(document);		    	  
-			      });
-				  registration.setDocuments(documentList);
-				  
-			
-			
-		    //Upload profile image
+							documentList.add(document);
+							System.out.println("5");
+						}
+					} else {
+						// Document already exists in the database; no need to upload and save details.
+						System.out.println("already exists");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Exception caught during database query");
+				}
+			});
+
+			// Only update the documents list in the Registration object if new documents
+			// were uploaded.
+			if (!documentList.isEmpty()) {
+				registration.setDocuments(documentList);
+			}
+
+			System.out.println("reached here");
+
+			// Upload profile image
 			UploadedProfileImage uploadedProfileImage = new UploadedProfileImage();
 			boolean flag = fileUploadHelper.uploadfile(file, tempRegistration, true);
-			if(flag) {
+			if (flag) {
 				String urlString = fileUploadHelper.generatelinkForImage(file, tempRegistration, true);
 				uploadedProfileImage.setLink(urlString);
 				uploadedProfileImage.setFileName(file.getOriginalFilename());
 				uploadedProfileImage.setUserRegistrationNo(registration);
-				
+
 				registration.setProfileImage(uploadedProfileImage);
 			}
-		
+
 			registrationService.saveRegistration(registration);
+
 		}catch(Exception ex) {
 			System.out.println(ex);
+//			ex.printStackTrace();
 		}
 		
 		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,null);
 		return new ResponseEntity<>(res, HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/filter")
-	private ResponseEntity<ResponseModel> filterRegistration(@RequestBody Registration registration){
-		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false ,registrationService.search(registration));
+	private ResponseEntity<ResponseModel> filterRegistration(@RequestBody Registration registration) {
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD, Constants.SUCCESS, false,
+				registrationService.search(registration));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/get-rollnumber")
-	private ResponseEntity<ResponseModel> getRollNumber(@RequestBody Registration registration){
+	private ResponseEntity<ResponseModel> getRollNumber(@RequestBody Registration registration) {
 		int rollnumber = registrationService.getRollNumber(registration);
 		List<Registration> regList = new ArrayList<Registration>();
 		Registration reg = new Registration();
+		
 		reg.setRollNumber(rollnumber);
 		regList.add(reg);
-		
-		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false , regList);
+
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD, Constants.SUCCESS, false, regList);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/filter-by-keyword")
-	private ResponseEntity<ResponseModel> filterListByKeyword(@RequestBody String inputString){
-		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false ,registrationService.filterListByKeyword(inputString));
+	private ResponseEntity<ResponseModel> filterListByKeyword(@RequestBody String inputString) {
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD, Constants.SUCCESS, false,
+				registrationService.filterListByKeyword(inputString));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
-	
-	
 
 }

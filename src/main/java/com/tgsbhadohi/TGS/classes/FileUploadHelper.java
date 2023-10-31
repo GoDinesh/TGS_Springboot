@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 
 @Component
@@ -71,8 +72,28 @@ public class FileUploadHelper {
 		}
 	   
 		String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path(PATH).path(file.getOriginalFilename()).toUriString();
-		System.out.println(temp);            
+//		System.out.println(temp);            
 		return temp;
 		
 	}
+	
+	public boolean deleteFile(UploadedDocuments document, Registration reg) {
+        boolean result = false;
+        
+        // Build the path where the file should be
+        String filePath = UPLOAD_DIR + File.separator + reg.getAcademicYearCode() + File.separator +
+            reg.getStandard() + File.separator + reg.getRegistrationNo() + File.separator +
+            "Documents" + File.separator + document.getFileName();
+            
+        try {
+            File file = new File(filePath);
+            if(file.exists()) {
+                result = file.delete(); // Deletes the file and returns true if successful
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return result;
+    }
 }

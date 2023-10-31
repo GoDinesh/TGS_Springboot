@@ -1,5 +1,10 @@
 package com.tgsbhadohi.TGS.controller.masters;
 
+import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.ResponseModel;
+import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
+import com.tgsbhadohi.TGS.service.masters.FeesStructureService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.tgsbhadohi.TGS.classes.Constants;
-import com.tgsbhadohi.TGS.classes.ResponseModel;
-import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
-import com.tgsbhadohi.TGS.service.masters.FeesStructureService;
-
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/master/fees-structure")

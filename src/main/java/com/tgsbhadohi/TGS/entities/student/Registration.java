@@ -2,7 +2,9 @@ package com.tgsbhadohi.TGS.entities.student;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tgsbhadohi.TGS.entities.fees.StudentFeesInstallment;
 import com.tgsbhadohi.TGS.entities.fees.StudentFeesStructure;
+import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
 import com.tgsbhadohi.TGS.entities.masters.Standard;
 import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
@@ -10,12 +12,18 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
+import jakarta.persistence.SecondaryTables;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -33,10 +41,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
+//@SecondaryTables(value = {
+//        @SecondaryTable(name = "Standard", pkJoinColumns = @PrimaryKeyJoinColumn(name = "col2", referencedColumnName = "classCode")),
+//        @SecondaryTable(name = "AcademicYear", pkJoinColumns = @PrimaryKeyJoinColumn(name = "col3", referencedColumnName = "academicYearCode"))
+//})
 public class Registration {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private long registrationId;
 	
 	private int rollNumber;
 	//Init
@@ -57,7 +69,7 @@ public class Registration {
 	//@NotBlank(message="Section Can't be blank")
 	private String section;   
 	
-	//@NotBlank(message="Academic Year Can't be blank")
+	@NotBlank(message="Academic Year Can't be blank")
 	private String academicYearCode; 
 	
 	//@Size(min=12, max=12, message="Length of Aadhar Number must be 12 character")
@@ -71,8 +83,14 @@ public class Registration {
 	private String category;   
 	
 	//@NotBlank(message="Registration Number Can't be blank")
-	@Column(unique = true)
+	//@Column(unique = true)
 	private String registrationNo;
+	
+	private Boolean isPromoted;
+	
+	private Boolean isActive;
+	
+	private Boolean isChecked;
 	
 	//Parent Info
 	//@Size(min=3, max=50, message="Father Name must be 3 - 50 character")
@@ -149,14 +167,21 @@ public class Registration {
 	private String schoolAddress;
 	
 	@JsonManagedReference
-	@OneToOne(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
+	@OneToOne(mappedBy="registrationId" , cascade = CascadeType.ALL)
 	private UploadedProfileImage profileImage;
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
 	private List<UploadedDocuments> documents;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
-	private List<StudentFeesStructure> studentFeesStructure;
+//	@JsonManagedReference
+//	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
+//	private List<StudentFeesStructure> studentFeesStructure;
+	 @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	    @JoinColumn(name = "registrationId", referencedColumnName = "registrationId")
+	    private List<StudentFeesStructure> studentFeesStructure;
+	
+//	 @OneToOne(fetch=FetchType.LAZY)
+//	 @JoinColumn(name = "academicYearCodeid", referencedColumnName = "") 
+//	 private AcademicYear academicYear;
 }

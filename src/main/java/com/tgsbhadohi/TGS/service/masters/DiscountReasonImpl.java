@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.masters.DiscountReasonDao;
@@ -17,7 +18,7 @@ public class DiscountReasonImpl implements DiscountReasonService{
 	
 	@Override
 	public List<DiscountReason> getAllDiscountReason() {
-		return this.discountReasonDao.findAll();
+		return this.discountReasonDao.findAll(Sort.by("discountReason"));
 	}
 
 	@Override
@@ -25,6 +26,11 @@ public class DiscountReasonImpl implements DiscountReasonService{
 		List<DiscountReason> data = new ArrayList<DiscountReason>();
 		data.add(discountReasonDao.save(discountReason));
 		return data;		
+	}
+
+	@Override
+	public List<DiscountReason> getAllActiveDiscountReason(Boolean status) {
+		return discountReasonDao.findByActive(true);
 	}
 	
 }

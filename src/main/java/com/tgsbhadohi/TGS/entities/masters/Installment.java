@@ -27,14 +27,17 @@ public class Installment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+//	@Id
+//	@JsonBackReference
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn( name="feeStructureId", referencedColumnName="feeStructureId")
+//	private FeesStructure feeStructureId;
+	
 	private String classCode;
 	private String academicYearCode;
 	private String installmentNumber;
 	private String installmentDate;
 	private Integer installmentAmount;
 	
-	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn( name="feeStructureId", referencedColumnName="feeStructureId")
-	private FeesStructure feeStructureId;
+	
 }

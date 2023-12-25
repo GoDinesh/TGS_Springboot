@@ -7,5 +7,5 @@ import com.tgsbhadohi.TGS.entities.masters.DiscountReason;
 public interface DiscountReasonService {
 	public List<DiscountReason> getAllDiscountReason();
 	public List<DiscountReason> saveDiscountReason(DiscountReason discountReason);
-
+	public List<DiscountReason> getAllActiveDiscountReason(Boolean status);
 }

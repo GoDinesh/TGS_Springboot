@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class RegistrationImpl implements RegistrationService {
 
   @Override
   public List<Registration> getAllRegistration(Registration registration) {
-    return registrationDao.findAll();
+    return registrationDao.findAll(Sort.by("studentName"));
   }
 
   @Override
@@ -72,7 +73,7 @@ public class RegistrationImpl implements RegistrationService {
         registration.getStudentName() +
         "%' and";
 
-      query = query + " 1";
+      query = query + " 1 order by student_name";
       Query qry = entityManager.createNativeQuery(query, Registration.class);
 
       List<Registration> studentList = qry.getResultList();
@@ -98,4 +99,17 @@ public class RegistrationImpl implements RegistrationService {
   public List<Registration> filterListByKeyword(String keyword) {
     return registrationDao.filterListByKeyword(keyword);
   }
+
+@Override
+public boolean updateStatus(Registration[] studentList) {
+	try {
+		for (Registration registration : studentList) {
+			registrationDao.updateIsActiveByRegistartionId(registration.getRegistrationId());
+		}
+	} catch (Exception e) {
+		return false;
+	}
+	return true;
+	
+}
 }

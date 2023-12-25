@@ -21,13 +21,14 @@ import lombok.ToString;
 @ToString
 @Entity
 public class Standard {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private long id; 
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+//	private long id; 
 	
+	@Id
 	@NotBlank(message="Class Code Can't be blank")
 	@Size(min = 2,max = 5, message="Length of Class Code is 3 - 5")
-	@Column(nullable = false, unique = true)
+	//@Column(nullable = false, unique = true)
 	private String classCode;
 	
 	@NotBlank(message="Class Name Can't be blank")

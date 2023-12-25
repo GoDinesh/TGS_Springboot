@@ -10,7 +10,7 @@ import com.tgsbhadohi.TGS.entities.student.Registration;
 
 @Repository
 public interface UploadedDocumentsDao extends JpaRepository<UploadedDocuments, Long> {
-    Optional<UploadedDocuments> findByFileNameAndUserRegistrationNo(String fileName, Registration registration);
+    Optional<UploadedDocuments> findByFileNameAndRegistrationId(String fileName, Registration registration);
     
-    List<UploadedDocuments> findByUserRegistrationNo(Registration registration);
+    List<UploadedDocuments> findByRegistrationId(Registration registration);
 }

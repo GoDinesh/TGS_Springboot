@@ -42,19 +42,23 @@ public class StudentFeesStructure {
     private double registrationFees;
     private double annualFees;
     private String annualFeesDate;	
+    private double regFeesDiscount;
+    private String regFeesDiscountReason;
     private boolean active;
     
     private double lumpsumAmount;
     
-    @JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
-	private Registration userRegistrationNo;
+//    @JsonBackReference
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name="registrationNo", referencedColumnName="registrationNo")
+//	private Registration userRegistrationNo;
     
-    @JsonManagedReference
-	@OneToMany(mappedBy="studentFeeStructureId" , cascade = CascadeType.ALL, orphanRemoval = true)   
+//    @JsonManagedReference
+//	@OneToMany(mappedBy="studentFeeStructureId" , cascade = CascadeType.ALL, orphanRemoval = true)   
+//    private List<StudentFeesInstallment> studentFeesInstallment;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "studentFeeStructureId", referencedColumnName = "studentFeeStructureId")
     private List<StudentFeesInstallment> studentFeesInstallment;
-    
-    
-    
- }
+  
+}

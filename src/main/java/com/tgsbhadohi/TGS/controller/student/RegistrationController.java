@@ -85,65 +85,115 @@ public class RegistrationController {
 
 		Registration registration = new Registration();
 		try {
-					//change string to Registration object
-					ObjectMapper mapper = new ObjectMapper(); 
-					registration = mapper.readValue(reqData, Registration.class);
-					tempRegistration = registration;
-					
-					FeesStructure feesStructure = new FeesStructure();
-					feesStructure.setAcademicYearCode(registration.getAcademicYearCode());
-					feesStructure.setClassCode(registration.getStandard());
-					
-					List<FeesStructure> feeStructureList = new ArrayList<>();
-					feeStructureList = feesStructureService.getFeeStructureById(feesStructure);
-					feesStructure = feeStructureList.get(0);
-					
-					StudentFeesStructure studentFeesStructure =new StudentFeesStructure();
-					studentFeesStructure.setStudentFeeStructureId(0);
-					studentFeesStructure.setClassCode(feesStructure.getClassCode());
-					studentFeesStructure.setEnrollmentType("NEW");
-					studentFeesStructure.setAcademicYearCode(feesStructure.getAcademicYearCode());
-					studentFeesStructure.setPaymentType("INSTALLMENT");	
-					studentFeesStructure.setTotalFees(feesStructure.getTotalFees());
-					studentFeesStructure.setDiscountReasonCode(feesStructure.getDiscountReasonCode());
-					studentFeesStructure.setDiscountAmount(feesStructure.getDiscountAmount());
-					studentFeesStructure.setNetAmountAfterDiscount(feesStructure.getNetAmountAfterDiscount());
-					studentFeesStructure.setRegistrationFees(feesStructure.getRegistrationFees());
-					studentFeesStructure.setAnnualFees(feesStructure.getAnnualFees());
-					studentFeesStructure.setAnnualFeesDate(feesStructure.getAnnualFeesDate());
-					studentFeesStructure.setActive(feesStructure.isActive());
-					
-					List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
-					for (Installment installment : feesStructure.getInstallment()) {
-						StudentFeesInstallment studentFeesInstallment = new StudentFeesInstallment();
-						studentFeesInstallment.setId(0);
-						studentFeesInstallment.setClassCode(installment.getClassCode());
-						studentFeesInstallment.setAcademicYearCode(installment.getAcademicYearCode());
-						studentFeesInstallment.setInstallmentNumber(installment.getInstallmentNumber());
-						studentFeesInstallment.setInstallmentDate(installment.getInstallmentDate());
-						studentFeesInstallment.setInstallmentAmount(installment.getInstallmentAmount());
-						studentFeesInstallment.setDiscountReason("");
-						studentFeesInstallment.setDiscountAmount(0);
+
+			//change string to Registration object
+			ObjectMapper mapper = new ObjectMapper(); 
+			registration = mapper.readValue(reqData, Registration.class);
+			tempRegistration = registration;
+			if(registration.getRegistrationId()==0){
+						FeesStructure feesStructure = new FeesStructure();
+						feesStructure.setAcademicYearCode(registration.getAcademicYearCode());
+						feesStructure.setClassCode(registration.getStandard());
 						
-						studentFeesInstallmentsList.add(studentFeesInstallment);
+						List<FeesStructure> feeStructureList = new ArrayList<>();
+						feeStructureList = feesStructureService.getFeeStructureById(feesStructure);
+						feesStructure = feeStructureList.get(0);
+						
+						StudentFeesStructure studentFeesStructure =new StudentFeesStructure();
+						studentFeesStructure.setStudentFeeStructureId(0);
+						//studentFeesStructure.setUserRegistrationNo(registration);
+						studentFeesStructure.setClassCode(feesStructure.getClassCode());
+						studentFeesStructure.setEnrollmentType("NEW");
+						studentFeesStructure.setAcademicYearCode(feesStructure.getAcademicYearCode());
+						studentFeesStructure.setPaymentType("INSTALLMENT");	
+						studentFeesStructure.setTotalFees(feesStructure.getTotalFees());
+						studentFeesStructure.setDiscountReasonCode(feesStructure.getDiscountReasonCode());
+						studentFeesStructure.setDiscountAmount(feesStructure.getDiscountAmount());
+						studentFeesStructure.setNetAmountAfterDiscount(feesStructure.getNetAmountAfterDiscount());
+						studentFeesStructure.setRegistrationFees(feesStructure.getRegistrationFees());
+						studentFeesStructure.setAnnualFees(feesStructure.getAnnualFees());
+						studentFeesStructure.setAnnualFeesDate(feesStructure.getAnnualFeesDate());
+						studentFeesStructure.setRegFeesDiscount(feesStructure.getRegFeesDiscount());
+						studentFeesStructure.setRegFeesDiscountReason(feesStructure.getRegFeesDiscountReason());
+						studentFeesStructure.setActive(feesStructure.isActive());
+						
+						
+						List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
+						for (Installment installment : feesStructure.getInstallment()) {
+							StudentFeesInstallment studentFeesInstallment = new StudentFeesInstallment();
+							studentFeesInstallment.setId(0);
+							//studentFeesInstallment.setStudentFeeStructureId(studentFeesStructure);
+							studentFeesInstallment.setClassCode(installment.getClassCode());
+							studentFeesInstallment.setAcademicYearCode(installment.getAcademicYearCode());
+							studentFeesInstallment.setInstallmentNumber(installment.getInstallmentNumber());
+							studentFeesInstallment.setInstallmentDate(installment.getInstallmentDate());
+							studentFeesInstallment.setInstallmentAmount(installment.getInstallmentAmount());
+							studentFeesInstallment.setDiscountReason("");
+							studentFeesInstallment.setDiscountAmount(0);
+							
+							studentFeesInstallmentsList.add(studentFeesInstallment);
+						}
+						
+						studentFeesStructure.setStudentFeesInstallment(studentFeesInstallmentsList);
+						
+						List<StudentFeesStructure> studentFeesStructureList =new ArrayList<>();
+						studentFeesStructureList.add(studentFeesStructure);
+						
+						registration.setStudentFeesStructure(studentFeesStructureList);
+			}
+
+			// delete document
+			try {
+				// Fetch existing documents for this registration from the database
+				List<UploadedDocuments> existingDocuments = uploadedDocumentsDao
+						.findByRegistrationId(tempRegistration);
+
+				// Convert uploaded documents to a set for easy comparison
+				Set<String> uploadedDocsSet = Arrays.stream(documentUpload).map(MultipartFile::getOriginalFilename)
+						.collect(Collectors.toSet());
+
+				// Identify documents to be deleted
+				List<UploadedDocuments> documentsToDelete = existingDocuments.stream()
+						.filter(doc -> !uploadedDocsSet.contains(doc.getFileName())).collect(Collectors.toList());
+
+				// Delete documents from directory and database
+				documentsToDelete.forEach(doc -> {
+					// Delete from directory
+					boolean isDeleted = fileUploadHelper.deleteFile(doc, tempRegistration);
+					System.out.println("deleted from directory");
+					
+					// If deletion from directory is successful, delete from database
+					if (isDeleted) {
+						System.out.println("not deleted from database");
+						uploadedDocumentsDao.delete(doc);
 					}
-					
-					studentFeesStructure.setStudentFeesInstallment(studentFeesInstallmentsList);
-					
-					List<StudentFeesStructure> studentFeesStructureList =new ArrayList<>();
-					studentFeesStructureList.add(studentFeesStructure);
-					
-					registration.setStudentFeesStructure(studentFeesStructureList);
-				
-				  //Upload document;	
-				  List<UploadedDocuments> documentList = new ArrayList<UploadedDocuments>();
-				  Arrays.asList(documentUpload).stream().forEach(doc -> {
-			    	  UploadedDocuments document = new UploadedDocuments();
-			    	  boolean flag = fileUploadHelper.uploadfile(doc, tempRegistration, false);
-			    	  if(flag) {
-			    			document.setLink(fileUploadHelper.generatelinkForImage(doc, tempRegistration, false));
+				});
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Exception caught during database query");
+			}
+
+			// Upload document;
+			List<UploadedDocuments> documentList = new ArrayList<UploadedDocuments>();
+			System.out.println("1");
+			Arrays.asList(documentUpload).stream().forEach(doc -> {
+				UploadedDocuments document = new UploadedDocuments();
+				System.out.println("2");
+
+				try {
+					// Check if the document already exists in the database
+					Optional<UploadedDocuments> existingDoc = uploadedDocumentsDao
+							.findByFileNameAndRegistrationId(doc.getOriginalFilename(), tempRegistration);
+
+					System.out.println("3");
+					if (existingDoc.isEmpty()) {
+						boolean flag = fileUploadHelper.uploadfile(doc, tempRegistration, false);
+						System.out.println("4");
+						if (flag) {
+							document.setLink(fileUploadHelper.generatelinkForImage(doc, tempRegistration, false));
 							document.setFileName(doc.getOriginalFilename());
-							document.setUserRegistrationNo(tempRegistration);
+							document.setRegistrationId(tempRegistration);
 							documentList.add(document);
 							System.out.println("5");
 						}
@@ -172,7 +222,7 @@ public class RegistrationController {
 				String urlString = fileUploadHelper.generatelinkForImage(file, tempRegistration, true);
 				uploadedProfileImage.setLink(urlString);
 				uploadedProfileImage.setFileName(file.getOriginalFilename());
-				uploadedProfileImage.setUserRegistrationNo(registration);
+				uploadedProfileImage.setRegistrationId(registration);
 
 				registration.setProfileImage(uploadedProfileImage);
 			}
@@ -214,5 +264,90 @@ public class RegistrationController {
 				registrationService.filterListByKeyword(inputString));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+	
+	
+	
+	@PostMapping("/promote-student")
+	private ResponseEntity<ResponseModel> promoteStudent(@RequestBody Registration promotedStudent[]) {
+		for (Registration registration : promotedStudent) {
+			try {
+				//if(registration.getRegistrationId()!=0){
+						FeesStructure feesStructure = new FeesStructure();
+						feesStructure.setAcademicYearCode(registration.getAcademicYearCode());
+						feesStructure.setClassCode(registration.getStandard());
+						
+						List<FeesStructure> feeStructureList = new ArrayList<>();
+						feeStructureList = feesStructureService.getFeeStructureById(feesStructure);
+						feesStructure = feeStructureList.get(0);
+						
+						StudentFeesStructure studentFeesStructure =new StudentFeesStructure();
+						studentFeesStructure.setStudentFeeStructureId(0);
+						//studentFeesStructure.setUserRegistrationNo(registration);
+						studentFeesStructure.setClassCode(feesStructure.getClassCode());
+						studentFeesStructure.setEnrollmentType("OLD STUDENT");
+						studentFeesStructure.setAcademicYearCode(feesStructure.getAcademicYearCode());
+						studentFeesStructure.setPaymentType("INSTALLMENT");	
+						studentFeesStructure.setTotalFees(feesStructure.getTotalFees());
+						studentFeesStructure.setDiscountReasonCode(feesStructure.getDiscountReasonCode());
+						studentFeesStructure.setDiscountAmount(feesStructure.getDiscountAmount());
+						studentFeesStructure.setNetAmountAfterDiscount(feesStructure.getNetAmountAfterDiscount());
+						//studentFeesStructure.setRegistrationFees(feesStructure.getRegistrationFees());
+						studentFeesStructure.setRegistrationFees(0);
+						studentFeesStructure.setAnnualFees(feesStructure.getAnnualFees());
+						studentFeesStructure.setAnnualFeesDate(feesStructure.getAnnualFeesDate());
+						studentFeesStructure.setRegFeesDiscount(feesStructure.getRegFeesDiscount());
+						studentFeesStructure.setRegFeesDiscountReason(feesStructure.getRegFeesDiscountReason());
+						studentFeesStructure.setActive(feesStructure.isActive());
+						
+						
+						List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
+						for (Installment installment : feesStructure.getInstallment()) {
+							StudentFeesInstallment studentFeesInstallment = new StudentFeesInstallment();
+							studentFeesInstallment.setId(0);
+							//studentFeesInstallment.setStudentFeeStructureId(studentFeesStructure);
+							studentFeesInstallment.setClassCode(installment.getClassCode());
+							studentFeesInstallment.setAcademicYearCode(installment.getAcademicYearCode());
+							studentFeesInstallment.setInstallmentNumber(installment.getInstallmentNumber());
+							studentFeesInstallment.setInstallmentDate(installment.getInstallmentDate());
+							studentFeesInstallment.setInstallmentAmount(installment.getInstallmentAmount());
+							studentFeesInstallment.setDiscountReason("");
+							studentFeesInstallment.setDiscountAmount(0);
+							
+							studentFeesInstallmentsList.add(studentFeesInstallment);
+						}
+						
+						studentFeesStructure.setStudentFeesInstallment(studentFeesInstallmentsList);
+						
+						List<StudentFeesStructure> studentFeesStructureList =new ArrayList<>();
+						studentFeesStructureList.add(studentFeesStructure);
+						
+						registration.setStudentFeesStructure(studentFeesStructureList);
+						registration.setIsChecked(false);
+				//}
+				registrationService.saveRegistration(registration);
+			}catch(Exception ex) {
+				System.out.println(ex);
+				ResponseModel res = new ResponseModel(Constants.ERROR,Constants.ERROR, true ,null);
+				return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+			}
+	}
+	ResponseModel res = new ResponseModel(Constants.STUDENT_PROMOTED,Constants.SUCCESS, true ,null);
+	return new ResponseEntity<>(res, HttpStatus.CREATED);	
+}
+	
+	
+	@PostMapping("/update-status-as-inactive")
+	private ResponseEntity<ResponseModel> updateStatusAsInactive(@RequestBody Registration promotedStudent[]) {
+		boolean flag = registrationService.updateStatus(promotedStudent);
+		if(flag) {
+			ResponseModel res = new ResponseModel(Constants.UPDATE_STATUS, Constants.SUCCESS, true,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}else {
+			ResponseModel res = new ResponseModel(Constants.ERROR, Constants.ERROR, true,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
+		
+	}
+	
 
 }

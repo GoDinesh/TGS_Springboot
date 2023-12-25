@@ -33,6 +33,18 @@ public class DiscountReasonController {
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
 
+  @GetMapping("/allActiveRecords")
+  private ResponseEntity<ResponseModel> getAllActiveDiscountReason() {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      discountReasonService.getAllActiveDiscountReason(true)
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  
   @PostMapping("/insert")
   private ResponseEntity<ResponseModel> saveDiscountReason(
     @Valid @RequestBody DiscountReason discountReason

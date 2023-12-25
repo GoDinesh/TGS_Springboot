@@ -26,6 +26,13 @@ public class FeesStructureController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
+	@GetMapping("/allActiveRecords")
+	private ResponseEntity<ResponseModel> getAllActiveFeesStructure(){
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false ,feesStructureService.getAllActiveFeesStructure(true));
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+	
 	@PostMapping("/insert")
 	private ResponseEntity<ResponseModel> saveFeesType(@Valid @RequestBody FeesStructure feesStructure) {
 		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,feesStructureService.saveFeesStructure(feesStructure));

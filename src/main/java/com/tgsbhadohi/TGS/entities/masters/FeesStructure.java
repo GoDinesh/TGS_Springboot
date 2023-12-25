@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,12 +41,14 @@ public class FeesStructure {
     private double registrationFees;
     private double annualFees;
     private String annualFeesDate;	
+    private double regFeesDiscount;
+    private String regFeesDiscountReason;
     private boolean active;
     
     private double lumpsumAmount;
     
-    @JsonManagedReference
-	@OneToMany(mappedBy="feeStructureId" , cascade = CascadeType.ALL, orphanRemoval = true)   
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "feeStructureId", referencedColumnName = "feeStructureId")
     private List<Installment> installment;
     
     

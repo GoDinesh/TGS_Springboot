@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.masters.AcademicYearDao;
@@ -17,9 +18,10 @@ public class AcademicYearImpl implements AcademicYearService{
 	
 	@Override
 	public List<AcademicYear> getAllAcademicYear() {
-		return academicYearDao.findAll();
+		return academicYearDao.findAll(Sort.by("academicYear"));
 	}
-
+	
+	
 	@Override
 	public List<AcademicYear> getAcademicYearById(Long id) {
 		List<AcademicYear> data = new ArrayList<AcademicYear>();
@@ -34,6 +36,11 @@ public class AcademicYearImpl implements AcademicYearService{
 		data.add(academicYearDao.save(academicYear));
 		return data;
 		
+	}
+
+	@Override
+	public List<AcademicYear> getAllActiveAcademicYear(Boolean status) {
+		return academicYearDao.findByActive(true);
 	}
 
 }

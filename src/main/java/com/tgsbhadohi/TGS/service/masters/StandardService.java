@@ -8,4 +8,5 @@ public interface StandardService {
 	public List<Standard> getAllStandard();
 	public List<Standard> getStandardById(Long id);
 	public List<Standard> saveStandard(Standard standard);
+	public List<Standard> getAllActiveStandard(Boolean status);
 }

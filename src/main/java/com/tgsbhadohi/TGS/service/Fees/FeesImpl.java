@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.fees.FeesDao;
@@ -23,7 +24,7 @@ public class FeesImpl implements FeesService {
 	
 	@Override
 	public List<Fees> getAllFees() {
-		return feesDao.findAll(); 
+		return feesDao.findAll(Sort.by("id")); 
 	}
 
 	@Override

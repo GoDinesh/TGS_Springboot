@@ -38,8 +38,8 @@ public class StudentFeesInstallment {
 	private String discountReason;
 	private Integer discountAmount;
 	
-	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn( name="studentFeeStructureId", referencedColumnName="studentFeeStructureId")
-	private StudentFeesStructure studentFeeStructureId;
+//	@JsonBackReference
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn( name="studentFeeStructureId", referencedColumnName="studentFeeStructureId")
+//	private StudentFeesStructure studentFeeStructureId;
 }

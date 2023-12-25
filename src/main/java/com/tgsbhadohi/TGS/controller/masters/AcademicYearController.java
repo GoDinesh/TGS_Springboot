@@ -34,6 +34,18 @@ public class AcademicYearController {
     );
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
+  
+  @GetMapping("/allActiveRecords")
+  private ResponseEntity<ResponseModel> getAllActiveAcademicYear() {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      academicYearService.getAllActiveAcademicYear(true)
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
 
   @GetMapping("/{id}")
   private ResponseEntity<ResponseModel> getAcademicYearById(

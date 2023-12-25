@@ -21,13 +21,14 @@ import lombok.ToString;
 @Entity
 public class AcademicYear {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private long id;
 	
+	@Id
 	@Size(min=8, max=8, message="Length of Academic Year Code must be 8 character")
 	@NotBlank(message="Academic Year Code Can't be blank")
-	@Column(nullable = false, unique = true)
+	//@Column(nullable = false, unique = true)
 	private String academicYearCode;
 	
 	@Size(min=9, max=9, message="length of Academic Year must be 9 character")

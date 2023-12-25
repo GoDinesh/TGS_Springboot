@@ -33,8 +33,8 @@ public class UploadedProfileImage {
 	@JsonBackReference
 //	@OneToOne(cascade = CascadeType.ALL)
 	@OneToOne
-	@JoinColumn( name="registrationNo", referencedColumnName="registrationNo")
-	private Registration userRegistrationNo;
+	@JoinColumn( name="registrationId", referencedColumnName="registrationId")
+	private Registration registrationId;
 	
 	private String fileName;	
 	

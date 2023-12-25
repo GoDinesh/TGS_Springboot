@@ -29,6 +29,6 @@ public class DiscountReason {
 	@Column(nullable = false, unique = true)
 	private String discountReason;
 	
-	private String active;
+	private boolean active;
 
 }

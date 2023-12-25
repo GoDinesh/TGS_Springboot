@@ -3,6 +3,7 @@ package com.tgsbhadohi.TGS.service.masters;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.masters.StandardDao;
@@ -16,7 +17,7 @@ public class StandardServiceImpl implements StandardService {
 	
 	@Override
 	public List<Standard> getAllStandard() {
-		return standardDao.findAll();
+		return standardDao.findAll(Sort.by("className"));
 	}
 
 	@Override
@@ -31,5 +32,10 @@ public class StandardServiceImpl implements StandardService {
 		List<Standard> data = new ArrayList<Standard>();
 		data.add(standardDao.save(standard));
 		return data;
+	}
+
+	@Override
+	public List<Standard> getAllActiveStandard(Boolean status) {
+		return standardDao.findByActive(status);
 	}
 }

@@ -33,7 +33,7 @@ public class StudentFeesStructureController {
 	
 	@PostMapping("/insert")
 	private ResponseEntity<ResponseModel> saveFees(@Valid @RequestBody StudentFeesStructure studentFeesStructure) {
-		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,studentFeesStructureService.saveStudentFeesStructure(studentFeesStructure));
+		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, false ,studentFeesStructureService.saveStudentFeesStructure(studentFeesStructure));
 		return new ResponseEntity<>(res, HttpStatus.CREATED);
 	}
 	

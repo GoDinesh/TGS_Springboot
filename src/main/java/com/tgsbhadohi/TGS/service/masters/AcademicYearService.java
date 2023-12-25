@@ -11,4 +11,5 @@ public interface AcademicYearService {
 	public List<AcademicYear> getAllAcademicYear();
 	public List<AcademicYear> getAcademicYearById(Long id);
 	public List<AcademicYear> saveAcademicYear(AcademicYear standard);
+	public List<AcademicYear> getAllActiveAcademicYear(Boolean status);
 }

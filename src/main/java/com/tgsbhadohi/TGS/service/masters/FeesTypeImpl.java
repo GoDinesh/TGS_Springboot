@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.masters.FeesTypeDao;
@@ -17,7 +18,7 @@ public class FeesTypeImpl implements FeesTypeService {
 	
 	@Override
 	public List<FeesType> getAllFeesType() {
-		return feesTypeDao.findAll();
+		return feesTypeDao.findAll(Sort.by("feesTypeDesc"));
 	}
 
 	@Override
@@ -25,6 +26,11 @@ public class FeesTypeImpl implements FeesTypeService {
 		List<FeesType> data = new ArrayList<FeesType>();
 		data.add(feesTypeDao.save(feesType));
 		return data;
+	}
+
+	@Override
+	public List<FeesType> getAllActiveFeesType(Boolean status) {
+		return feesTypeDao.findByActive(status);
 	}
 
 }

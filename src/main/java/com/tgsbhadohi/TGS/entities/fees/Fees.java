@@ -25,8 +25,10 @@ public class Fees {
 	private String classCode;
 	private String academicYearCode;
 	private String registrationNo;
+	private String paymenttype;
 	private String paymentMode;
 	private Double amount;
 	private Date   paymentDate;
 	private String paymentReceivedBy;
+	private String remarks;
 }

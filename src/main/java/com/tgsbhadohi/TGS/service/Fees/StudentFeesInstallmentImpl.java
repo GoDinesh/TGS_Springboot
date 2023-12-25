@@ -3,6 +3,7 @@ package com.tgsbhadohi.TGS.service.Fees;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tgsbhadohi.TGS.dao.fees.StudentFeesInstallmentDao;
@@ -15,7 +16,7 @@ public class StudentFeesInstallmentImpl implements StudentFeesInstallmentService
 	
 	@Override
 	public List<StudentFeesInstallment> getAllStudentFeesInstallment() {
-		return studentFeesInstallmentDao.findAll();
+		return studentFeesInstallmentDao.findAll(Sort.by("installmentDate"));
 	}
 
 	@Override

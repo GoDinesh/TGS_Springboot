@@ -33,6 +33,19 @@ public class StandardController {
     );
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
+  
+  @GetMapping("/allActiveRecords")
+  private ResponseEntity<ResponseModel> getAllActiveStandard() {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      standardService.getAllActiveStandard(true)
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  
 
   @GetMapping("/{id}")
   private ResponseEntity<ResponseModel> getStandardById(

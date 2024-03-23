@@ -27,12 +27,12 @@ public class Standard {
 	
 	@Id
 	@NotBlank(message="Class Code Can't be blank")
-	@Size(min = 2,max = 5, message="Length of Class Code is 3 - 5")
+	@Size(min = 1,max = 5, message="Length of Class Code is 3 - 5")
 	//@Column(nullable = false, unique = true)
 	private String classCode;
 	
 	@NotBlank(message="Class Name Can't be blank")
-	@Size(min = 2,max = 50 , message="Length of Class Name is 2 - 50")
+	@Size(min = 1,max = 50 , message="Length of Class Name is 2 - 50")
 	private String className;
 	
 	private boolean active;

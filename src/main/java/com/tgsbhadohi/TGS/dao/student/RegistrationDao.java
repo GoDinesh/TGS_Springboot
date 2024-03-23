@@ -17,9 +17,11 @@ import com.tgsbhadohi.TGS.entities.student.Registration;
 @Repository
 public interface RegistrationDao extends JpaRepository<Registration, Long>{
 	
-	//@Query(value = "SELECT COALESCE(max(roll_number+1) , 1 ) as roll_number from registration where academic_year_code = :academicYear and standard = :standard", nativeQuery = true)
-	@Query(value = "SELECT COALESCE(max(registration_id+1),1) as roll_number from registration", nativeQuery = true)
+	@Query(value = "SELECT COALESCE(max(roll_number+1) , 1 ) as roll_number from registration where academic_year_code = :academicYear and standard = :standard", nativeQuery = true)
 	int getRollNumber(@Param("academicYear") String academicYear, @Param("standard") String standard);
+	
+	@Query(value = "SELECT count(distinct(registration_no))+1 as roll_number FROM tgs.registration", nativeQuery = true)
+	int getRegistrationNumber();
 	
 	@Query("SELECT r FROM Registration r WHERE "
 				+ "r.studentName LIKE %?1%"
@@ -29,10 +31,21 @@ public interface RegistrationDao extends JpaRepository<Registration, Long>{
 	
 //	@Modifying	
 //	@Query("update Registration set category=false where registrationId= ?1")
-//	int updateIsActiveByRegistartionId(Long registartionid);
+//	int updateIsActiveByRegistartionId(Long registartionid);serve
+	
 	
 	@Modifying
 	@Query("update Registration r set r.isActive = false where r.registrationId = :registrationId")
 	@Transactional
     int updateIsActiveByRegistartionId(@Param("registrationId") Long registrationId);
+	
+	@Modifying
+	//@Query("update Registration r set r.paidFees = :paidFees, r.pendingFees= :pendingFees, r.isTotalFeesPaid= :isTotalFeesPaid, r.totalFees= :totalFees where r.registrationId = :registrationId")
+	@Query("update Registration r set r.paidFees = :paidFees, r.pendingFees= :pendingFees, r.isTotalFeesPaid= :isTotalFeesPaid where r.registrationId = :registrationId")
+	@Transactional
+    int updateFeesDetailsByRegistrationId(@Param("registrationId") Long registrationId,
+    		@Param("paidFees") double paidFees,
+    		@Param("pendingFees") double pendingFees,
+    		@Param("isTotalFeesPaid") boolean isTotalFeesPaid);
+	
 }

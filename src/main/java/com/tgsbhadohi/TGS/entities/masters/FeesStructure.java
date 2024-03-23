@@ -34,14 +34,14 @@ public class FeesStructure {
     private String validityStartDate;
     private String validityEndDate;
     private String remarks;
-    private double totalFees;
-    private double discountReasonCode;
-    private double discountAmount;
-    private double netAmountAfterDiscount;
-    private double registrationFees;
-    private double annualFees;
-    private String annualFeesDate;	
-    private double regFeesDiscount;
+    private Integer totalFees=0;
+    private Integer discountReasonCode;
+    private Integer discountAmount=0;
+    private Integer netAmountAfterDiscount=0;
+    //private double registrationFees;
+    //private double annualFees;
+   // private String annualFeesDate;	
+    private Integer regFeesDiscount=0;
     private String regFeesDiscountReason;
     private boolean active;
     

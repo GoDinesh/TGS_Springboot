@@ -2,10 +2,17 @@ package com.tgsbhadohi.TGS.entities.fees;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tgsbhadohi.TGS.entities.student.Registration;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +38,14 @@ public class Fees {
 	private Date   paymentDate;
 	private String paymentReceivedBy;
 	private String remarks;
+	private String studentName;
+	@Transient
+	private String startDate;
+	@Transient
+	private String endDate;
+	
+//	@JsonBackReference
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn( name="registrationId", referencedColumnName="registrationId", updatable = false)
+//	private Registration registrationId;
 }

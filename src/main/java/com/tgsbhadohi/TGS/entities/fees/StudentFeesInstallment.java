@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.Installment;
+import com.tgsbhadohi.TGS.entities.student.Registration;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,13 +34,22 @@ public class StudentFeesInstallment {
 	private String classCode;
 	private String academicYearCode;
 	private String installmentNumber;
-	private String installmentDate;
-	private Integer installmentAmount;
+	private String installmentType;
 	private String discountReason;
-	private Integer discountAmount;
+	private Integer discountAmount=0;
+	private String installmentDate;
+	private Integer installmentDiscount=0;
+	private Integer installmentAmount=0;
+	private Integer installmentAmountAfterDiscount=0;
 	
-//	@JsonBackReference
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	@JoinColumn( name="studentFeeStructureId", referencedColumnName="studentFeeStructureId")
-//	private StudentFeesStructure studentFeeStructureId;
+	
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn( name="studentFeeStructureId", referencedColumnName="studentFeeStructureId", updatable = false)
+	private StudentFeesStructure studentFeeStructureId;
+	
+//	 @JsonBackReference
+//		@ManyToOne(cascade = CascadeType.ALL)
+//		@JoinColumn(name="registrationId", referencedColumnName="registrationId", nullable=false)
+//		private Registration registrationId;
 }

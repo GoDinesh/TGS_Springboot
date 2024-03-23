@@ -11,6 +11,8 @@ public interface RegistrationService {
 	public List<Registration> saveRegistration(Registration registration);
 	public List<Registration> search(Registration registration);
 	public Integer getRollNumber(Registration registration);
+	public Integer getRegistrationNumber();
 	public List<Registration> filterListByKeyword(String keyword); 
 	public boolean updateStatus(Registration studentList[]);
+	public boolean updateFeesDetails(Registration registration);
 }

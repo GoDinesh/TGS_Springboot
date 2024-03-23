@@ -51,6 +51,11 @@ public class FeesImpl implements FeesService {
 			query = query +" registration_no='"+fees.getRegistrationNo()+"' and";
 		if(fees.getPaymentMode().length()>0)
 			query = query +" payment_mode='"+fees.getPaymentMode()+"' and";
+		if(fees.getStartDate().length()>0)
+			query = query +" payment_date>='"+fees.getStartDate()+"' and";
+		if(fees.getEndDate().length()>0)
+			query = query +" payment_date<='"+fees.getEndDate()+"' and";
+		
 				
 		query= query+" 1";
 		Query qry = entityManager.createNativeQuery(query,Fees.class);

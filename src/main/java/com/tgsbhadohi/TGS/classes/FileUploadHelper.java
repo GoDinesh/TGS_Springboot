@@ -19,12 +19,17 @@ import com.tgsbhadohi.TGS.entities.student.Registration;
 @Component
 public class FileUploadHelper {
 
-	public final String UPLOAD_DIR= new ClassPathResource("static/image/").getFile().getAbsolutePath(); //"C:\\Users\\dines\\Angular_project\\TGS\\src\\main\\resources\\static\\image";
-	
-	public FileUploadHelper()throws IOException
-	{
-		
-	}
+	//public final String UPLOAD_DIR= new ClassPathResource("static/image/").getFile().getAbsolutePath(); //"C:\\Users\\dines\\Angular_project\\TGS\\src\\main\\resources\\static\\image";
+	public final String UPLOAD_DIR="";
+//	public FileUploadHelper()throws IOException
+//	{
+//		try {
+//			
+//		}catch(Exception ex) {
+//			System.out.println(ex);
+//		}
+//		
+//	}
 	
 	public boolean uploadfile(MultipartFile file, Registration reg, boolean singleUpload) {
 		boolean flag = false;

@@ -27,6 +27,7 @@ import com.tgsbhadohi.TGS.entities.authorization.User;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("*")
 public class AuthController {
 	@Autowired
     private UserDetailsService userDetailsService;

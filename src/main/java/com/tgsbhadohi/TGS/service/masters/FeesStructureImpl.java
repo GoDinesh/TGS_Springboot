@@ -30,7 +30,8 @@ public class FeesStructureImpl implements FeesStructureService{
 
 	@Override
 	public List<FeesStructure> getFeeStructureById(FeesStructure feesStructure) {
-		return feesStructureDao.findByAcademicYearCodeAndClassCode(feesStructure.getAcademicYearCode(), feesStructure.getClassCode());
+		return feesStructureDao.findByAcademicYearCodeAndClassCodeAndEnrollmentType(feesStructure.getAcademicYearCode(),
+				feesStructure.getClassCode(), feesStructure.getEnrollmentType());
 	}
 
 	@Override

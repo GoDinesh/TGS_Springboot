@@ -22,6 +22,7 @@ public class StudentFeesStructureImpl implements StudentFeesStructureService {
 
 	@Override
 	public List<StudentFeesStructure> saveStudentFeesStructure(StudentFeesStructure studentFeesStructure) {
+		System.out.println();
 		List<StudentFeesStructure> studentFeesStructuresList = new ArrayList<>();
 		studentFeesStructuresList.add(studentFeesStructureDao.save(studentFeesStructure));
 		return studentFeesStructuresList;		

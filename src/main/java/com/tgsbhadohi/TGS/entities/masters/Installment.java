@@ -36,8 +36,10 @@ public class Installment {
 	private String classCode;
 	private String academicYearCode;
 	private String installmentNumber;
+	private String installmentType;
 	private String installmentDate;
-	private Integer installmentAmount;
-	
-	
+	private Integer installmentDiscount=0;
+	private Integer installmentAmount=0;
+	private Integer installmentAmountAfterDiscount=0;
+
 }

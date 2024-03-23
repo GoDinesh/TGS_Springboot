@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/master/standard")
+@CrossOrigin("*")
 public class StandardController {
 
   @Autowired

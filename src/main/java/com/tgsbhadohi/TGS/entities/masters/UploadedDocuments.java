@@ -28,9 +28,9 @@ public class UploadedDocuments {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	//@Id
 	@JsonBackReference
-//	@ManyToOne(cascade = CascadeType.ALL)
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn( name="registrationId", referencedColumnName="registrationId")
 	private Registration registrationId;
 	

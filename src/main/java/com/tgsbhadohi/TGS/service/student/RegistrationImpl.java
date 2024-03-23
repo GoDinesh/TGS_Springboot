@@ -94,6 +94,15 @@ public class RegistrationImpl implements RegistrationService {
     } catch (Exception e) {}
     return null;
   }
+  
+  @Override
+  public Integer getRegistrationNumber() {
+    try {
+      int registrationNumber = registrationDao.getRegistrationNumber();
+      return registrationNumber;
+    } catch (Exception e) {}
+    return null;
+  }
 
   @Override
   public List<Registration> filterListByKeyword(String keyword) {
@@ -111,5 +120,19 @@ public boolean updateStatus(Registration[] studentList) {
 	}
 	return true;
 	
+}
+
+@Override
+public boolean updateFeesDetails(Registration registration) {
+	try {
+			registrationDao.updateFeesDetailsByRegistrationId(registration.getRegistrationId(),
+					registration.getPaidFees(),
+					registration.getPendingFees(),	
+					//registration.getTotalFees(),					
+					registration.getIsTotalFeesPaid());
+	} catch (Exception e) {
+		return false;
+	}
+	return true;
 }
 }

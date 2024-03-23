@@ -2,6 +2,7 @@ package com.tgsbhadohi.TGS.entities.student;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tgsbhadohi.TGS.entities.fees.Fees;
 import com.tgsbhadohi.TGS.entities.fees.StudentFeesInstallment;
 import com.tgsbhadohi.TGS.entities.fees.StudentFeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
@@ -69,7 +70,10 @@ public class Registration {
 	//@NotBlank(message="Section Can't be blank")
 	private String section;   
 	
-	@NotBlank(message="Academic Year Can't be blank")
+//	@NotBlank(message="Academic Year Can't be blank")
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="academicYearCode", referencedColumnName = "academicYearCode")
+//	private AcademicYear academicYear;
 	private String academicYearCode; 
 	
 	//@Size(min=12, max=12, message="Length of Aadhar Number must be 12 character")
@@ -85,6 +89,8 @@ public class Registration {
 	//@NotBlank(message="Registration Number Can't be blank")
 	//@Column(unique = true)
 	private String registrationNo;
+	
+	private String enrollmentType;
 	
 	private Boolean isPromoted;
 	
@@ -166,22 +172,38 @@ public class Registration {
 	//@Size(min=2, max=100, message="Length of school address must be 2 - 100 character")
 	private String schoolAddress;
 	
+	
+	private double totalFees;
+    private double paidFees;
+    private double pendingFees;
+    private Boolean isTotalFeesPaid;
+	
 	@JsonManagedReference
 	@OneToOne(mappedBy="registrationId" , cascade = CascadeType.ALL)
+//    @OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "registrationId", referencedColumnName = "registrationId")
 	private UploadedProfileImage profileImage;
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
 	private List<UploadedDocuments> documents;
 	
-//	@JsonManagedReference
-//	@OneToMany(mappedBy="userRegistrationNo" , cascade = CascadeType.ALL)
-//	private List<StudentFeesStructure> studentFeesStructure;
-	 @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	    @JoinColumn(name = "registrationId", referencedColumnName = "registrationId")
-	    private List<StudentFeesStructure> studentFeesStructure;
 	
-//	 @OneToOne(fetch=FetchType.LAZY)
-//	 @JoinColumn(name = "academicYearCodeid", referencedColumnName = "") 
-//	 private AcademicYear academicYear;
+	@JsonManagedReference
+	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
+	private List<StudentFeesStructure> studentFeesStructure;
+	
+//	@JsonManagedReference
+//	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
+//	private List<Fees> fees;
+	
+	
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "registrationId", referencedColumnName = "registrationId")
+//	private List<StudentFeesStructure> studentFeesStructure;
+	
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "registrationId", referencedColumnName = "registrationId")
+//	private List<Fees> fees;
+	
 }

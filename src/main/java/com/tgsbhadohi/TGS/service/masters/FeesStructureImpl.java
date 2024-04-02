@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.dao.masters.FeesStructureDao;
 import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
+import com.tgsbhadohi.TGS.entities.masters.Installment;
 
 @Service
 public class FeesStructureImpl implements FeesStructureService{
@@ -22,10 +25,24 @@ public class FeesStructureImpl implements FeesStructureService{
 	}
 
 	@Override
-	public List<FeesStructure> saveFeesStructure(FeesStructure feesStructure) {
+	public ResponseModel saveFeesStructure(FeesStructure feesStructure) {
 		List<FeesStructure> data = new ArrayList<FeesStructure>();
-		data.add(feesStructureDao.save(feesStructure));
-		return data;
+		ResponseModel res = new ResponseModel();
+//		data.add(feesStructureDao.save(feesStructure));
+//		return data;
+		 
+	        if(feesStructure.getFeeStructureId()>0) {
+	        	data.add(feesStructureDao.save(feesStructure));
+				res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
+	        }else {
+				if(feesStructureDao.countByAcademicYearCodeAndClassCodeAndEnrollmentType(feesStructure.getAcademicYearCode(), feesStructure.getClassCode(), feesStructure.getEnrollmentType())>0) {
+					res = new ResponseModel(Constants.DUPLICATE_RECORD, Constants.ERROR, true, null); 
+				}else {
+					data.add(feesStructureDao.save(feesStructure));
+					res = new ResponseModel(Constants.CREATE_RECORD, Constants.SUCCESS, true, data);
+				}
+	        }
+			return res;
 	}
 
 	@Override

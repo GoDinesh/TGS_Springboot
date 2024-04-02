@@ -51,12 +51,13 @@ public class DiscountReasonController {
   private ResponseEntity<ResponseModel> saveDiscountReason(
     @Valid @RequestBody DiscountReason discountReason
   ) {
-    ResponseModel res = new ResponseModel(
-      Constants.CREATE_RECORD,
-      Constants.SUCCESS,
-      true,
-      discountReasonService.saveDiscountReason(discountReason)
-    );
-    return new ResponseEntity<>(res, HttpStatus.CREATED);
+//    ResponseModel res = new ResponseModel(
+//      Constants.CREATE_RECORD,
+//      Constants.SUCCESS,
+//      true,
+//      discountReasonService.saveDiscountReason(discountReason)
+//    );
+//    return new ResponseEntity<>(res, HttpStatus.CREATED);
+	  return new ResponseEntity<>(discountReasonService.saveDiscountReason(discountReason), HttpStatus.CREATED);
   }
 }

@@ -1,5 +1,10 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,5 +40,10 @@ public class FeesType {
 	private String feesTypeDesc;
 	
 	private boolean active;
+	
+	@CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
 
 }

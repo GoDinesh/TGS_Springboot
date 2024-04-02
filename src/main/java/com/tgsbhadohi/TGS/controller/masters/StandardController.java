@@ -65,12 +65,13 @@ public class StandardController {
   private ResponseEntity<ResponseModel> saveStandard(
     @Valid @RequestBody Standard standard
   ) {
-    ResponseModel res = new ResponseModel(
-      Constants.CREATE_RECORD,
-      Constants.SUCCESS,
-      true,
-      standardService.saveStandard(standard)
-    );
-    return new ResponseEntity<>(res, HttpStatus.CREATED);
+//    ResponseModel res = new ResponseModel(
+//      Constants.CREATE_RECORD,
+//      Constants.SUCCESS,
+//      true,
+//      standardService.saveStandard(standard)
+//    );
+//    return new ResponseEntity<>(res, HttpStatus.CREATED);
+	  return new ResponseEntity<>(standardService.saveStandard(standard), HttpStatus.CREATED);
   }
 }

@@ -1,5 +1,10 @@
 package com.tgsbhadohi.TGS.entities.authorization;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,5 +36,11 @@ public class AssignPermission {
     
     @Column(length = 65555)
     private String permission;
+    
+    @CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
+	
 
 }

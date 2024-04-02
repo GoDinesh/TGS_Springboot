@@ -10,5 +10,6 @@ import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
 @Repository
 public interface FeesStructureDao extends JpaRepository<FeesStructure, Long> {
 	public List<FeesStructure> findByAcademicYearCodeAndClassCodeAndEnrollmentType(String academicYearCode, String classCode, String enrollmentType);
+	public Integer countByAcademicYearCodeAndClassCodeAndEnrollmentType(String academicYearCode, String classCode, String enrollmentType);
 	public List<FeesStructure> findByActive(boolean status);
 }

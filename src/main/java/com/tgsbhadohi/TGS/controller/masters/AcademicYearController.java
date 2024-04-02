@@ -6,6 +6,10 @@ import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
 import com.tgsbhadohi.TGS.entities.masters.Standard;
 import com.tgsbhadohi.TGS.service.masters.AcademicYearService;
 import jakarta.validation.Valid;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,12 +70,6 @@ public class AcademicYearController {
   private ResponseEntity<ResponseModel> saveAcademicYear(
     @Valid @RequestBody AcademicYear academicYear
   ) {
-    ResponseModel res = new ResponseModel(
-      Constants.CREATE_RECORD,
-      Constants.SUCCESS,
-      true,
-      academicYearService.saveAcademicYear(academicYear)
-    );
-    return new ResponseEntity<>(res, HttpStatus.CREATED);
+	  return new ResponseEntity<>(academicYearService.saveAcademicYear(academicYear), HttpStatus.CREATED);
   }
 }

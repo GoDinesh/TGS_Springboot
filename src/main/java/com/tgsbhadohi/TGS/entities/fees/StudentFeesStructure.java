@@ -1,6 +1,10 @@
 package com.tgsbhadohi.TGS.entities.fees;
 
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -48,6 +52,12 @@ public class StudentFeesStructure {
     private boolean active;
     
     private Integer lumpsumAmount=0;
+    
+    @CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
+	
     
 
     @JsonBackReference

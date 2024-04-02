@@ -71,11 +71,11 @@ public class RegistrationController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
-	@PostMapping("/registration")
-	private ResponseEntity<ResponseModel> saveRegistration(@Valid @RequestBody Registration registration) {
-		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,registrationService.saveRegistration(registration));
-		return new ResponseEntity<>(res, HttpStatus.CREATED);
-	}
+//	@PostMapping("/registration")
+//	private ResponseEntity<ResponseModel> saveRegistration(@Valid @RequestBody Registration registration) {
+//		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,registrationService.saveRegistration(registration));
+//		return new ResponseEntity<>(res, HttpStatus.CREATED);
+//	}
 
 	@PostMapping("/upload-image")
 	private ResponseEntity<ResponseModel> uploadImage(@RequestParam(name="profileImage", required=false) MultipartFile file,
@@ -83,7 +83,7 @@ public class RegistrationController {
 			@RequestParam(name="documentUpload[]", required=false) MultipartFile[] documentUpload) {
 
 		final Registration tempRegistration;
-
+		Integer installmentDiscount = 0;
 		Registration registration = new Registration();
 		try {
 
@@ -91,6 +91,7 @@ public class RegistrationController {
 			ObjectMapper mapper = new ObjectMapper(); 
 			registration = mapper.readValue(reqData, Registration.class);
 			tempRegistration = registration;
+			
 			if(registration.getRegistrationId()==0){
 						FeesStructure feesStructure = new FeesStructure();
 						feesStructure.setAcademicYearCode(registration.getAcademicYearCode());
@@ -124,6 +125,16 @@ public class RegistrationController {
 								
 								List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
 								for (Installment installment : feesStructure.getInstallment()) {
+									try {
+										if(installment.getInstallmentDiscount().toString().length()>0) {
+											if(installment.getInstallmentDiscount()>0) {
+												installmentDiscount=installmentDiscount+ installment.getInstallmentDiscount();
+											}
+										}
+									}catch(Exception ex) {
+										System.out.println("ex-"+ex);
+									}
+									
 									StudentFeesInstallment studentFeesInstallment = new StudentFeesInstallment();
 									studentFeesInstallment.setId(0);
 									studentFeesInstallment.setStudentFeeStructureId(studentFeesStructure);
@@ -146,11 +157,15 @@ public class RegistrationController {
 								List<StudentFeesStructure> studentFeesStructureList =new ArrayList<>();
 								studentFeesStructureList.add(studentFeesStructure);
 								
+								
+								
+								
 								registration.setStudentFeesStructure(studentFeesStructureList);
 								//add fees related details
 								registration.setTotalFees(feesStructure.getTotalFees());
 								//registration.setPendingFees(feesStructure.getTotalFees());
-								registration.setPendingFees(feesStructure.getNetAmountAfterDiscount());
+								registration.setPendingFees(feesStructure.getTotalFees()-installmentDiscount);
+								registration.setDiscountAmount(installmentDiscount);
 					}
 			}
 
@@ -239,14 +254,15 @@ public class RegistrationController {
 			}
 			}
 
-			registrationService.saveRegistration(registration);
+			//registrationService.saveRegistration(registration);
+			 return new ResponseEntity<>(registrationService.saveRegistration(registration), HttpStatus.CREATED);
 
 		}catch(Exception ex) {
 			System.out.println(ex);
 //			ex.printStackTrace();
 		}
 		
-		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,null);
+		ResponseModel res = new ResponseModel(Constants.FAILURE,Constants.ERROR, true ,null);
 		return new ResponseEntity<>(res, HttpStatus.CREATED);
 	}
 
@@ -297,6 +313,8 @@ public class RegistrationController {
 		for (Registration registration : promotedStudent) {
 			try {
 				//if(registration.getRegistrationId()!=0){
+				Integer installmentDiscount = 0;
+				
 						FeesStructure feesStructure = new FeesStructure();
 						feesStructure.setAcademicYearCode(registration.getAcademicYearCode());
 						feesStructure.setClassCode(registration.getStandard());
@@ -329,6 +347,16 @@ public class RegistrationController {
 										
 										List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
 										for (Installment installment : feesStructure.getInstallment()) {
+											try {
+												if(installment.getInstallmentDiscount().toString().length()>0) {
+													if(installment.getInstallmentDiscount()>0) {
+													installmentDiscount = installmentDiscount+installment.getInstallmentDiscount();
+													}
+												}
+											}catch(Exception ex) {
+												System.out.println(ex);
+											}
+											
 											StudentFeesInstallment studentFeesInstallment = new StudentFeesInstallment();
 											studentFeesInstallment.setId(0);
 											studentFeesInstallment.setStudentFeeStructureId(studentFeesStructure);
@@ -360,7 +388,8 @@ public class RegistrationController {
 										//add fees related details
 										double totalfees = feesStructure.getTotalFees();
 										registration.setTotalFees(totalfees);
-										registration.setPendingFees(feesStructure.getNetAmountAfterDiscount());
+										registration.setPendingFees(totalfees - installmentDiscount);
+										registration.setDiscountAmount(installmentDiscount);
 										
 										//generate new roll number
 										int rollnumber = registrationService.getRollNumber(registration);

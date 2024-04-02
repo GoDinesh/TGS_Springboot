@@ -1,6 +1,11 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 
@@ -38,4 +43,9 @@ public class UploadedProfileImage {
 	private String fileName;	
 	
 	private String link;	
+	
+	@CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
 }

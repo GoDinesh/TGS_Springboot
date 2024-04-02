@@ -8,4 +8,6 @@ import com.tgsbhadohi.TGS.entities.masters.Standard;
 
 public interface StandardDao extends JpaRepository<Standard, Long>{
 	public List<Standard> findByActive(boolean status);
+	public Integer countByClassCode(String classCode);
+	public Integer countByClassName(String className);
 }

@@ -1,7 +1,10 @@
 package com.tgsbhadohi.TGS.entities.authorization;
 
 import java.util.Collection;
+import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -55,6 +58,12 @@ public class User implements UserDetails {
 	private String name;
 	
 	private String active;
+	
+	@CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
+	
 	
 	@Transient
 	private AssignPermission userPermission;

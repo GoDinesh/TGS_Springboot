@@ -1,6 +1,10 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -46,6 +50,11 @@ public class FeesStructure {
     private boolean active;
     
     private double lumpsumAmount;
+    
+    @CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "feeStructureId", referencedColumnName = "feeStructureId")

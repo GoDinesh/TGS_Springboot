@@ -37,8 +37,9 @@ public class FeesStructureController {
 	
 	@PostMapping("/insert")
 	private ResponseEntity<ResponseModel> saveFeesType(@Valid @RequestBody FeesStructure feesStructure) {
-		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,feesStructureService.saveFeesStructure(feesStructure));
-		return new ResponseEntity<>(res, HttpStatus.CREATED);
+//		ResponseModel res = new ResponseModel(Constants.CREATE_RECORD,Constants.SUCCESS, true ,feesStructureService.saveFeesStructure(feesStructure));
+//		return new ResponseEntity<>(res, HttpStatus.CREATED);
+		return new ResponseEntity<>(feesStructureService.saveFeesStructure(feesStructure), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/findbyid")

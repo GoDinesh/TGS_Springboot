@@ -1,6 +1,11 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,13 +26,13 @@ import lombok.ToString;
 @ToString
 @Entity
 public class Standard {
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-//	private long id; 
-	
 	@Id
-	@NotBlank(message="Class Code Can't be blank")
-	@Size(min = 1,max = 5, message="Length of Class Code is 3 - 5")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	private long id; 
+	
+//	@Id
+//	@NotBlank(message="Class Code Can't be blank")
+//	@Size(min = 1,max = 5, message="Length of Class Code is 3 - 5")
 	//@Column(nullable = false, unique = true)
 	private String classCode;
 	
@@ -36,6 +41,11 @@ public class Standard {
 	private String className;
 	
 	private boolean active;
+	
+	@CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
 	
 		
 }

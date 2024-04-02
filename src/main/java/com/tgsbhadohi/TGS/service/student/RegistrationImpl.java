@@ -1,5 +1,7 @@
 package com.tgsbhadohi.TGS.service.student;
 
+import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.dao.student.RegistrationDao;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 import jakarta.persistence.EntityManager;
@@ -36,10 +38,29 @@ public class RegistrationImpl implements RegistrationService {
 
 //  @Transactional
   @Override
-  public List<Registration> saveRegistration(Registration registration) {
+  public ResponseModel saveRegistration(Registration registration) {
     List<Registration> data = new ArrayList<Registration>();
-    data.add(registrationDao.save(registration));
-    return data;
+    ResponseModel res = new ResponseModel();
+//    data.add(registrationDao.save(registration));
+   // return data;
+    
+    if(registration.getRegistrationId()>0) {
+    	data.add(registrationDao.save(registration));
+		res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
+    }else {
+		if(registrationDao.countByAadhaarNumber(registration.getAadhaarNumber())>0 && (!registration.getAadhaarNumber().isEmpty())) {
+			res = new ResponseModel(Constants.AADHAR_NUMBER_ALREADY_AVAILABLE, Constants.ERROR, true, null); 
+		}
+//		else if(registrationDao.countByFatherContactNoOrMotherContactNumberOrEmergencyNumber(
+//				registration.getFatherContactNo(), registration.getMotherAadharNumber(), registration.getEmergencyNumber())>0) {
+//			res = new ResponseModel(Constants.MOBILE_NUMBER_ALREADY_AVAILABLE, Constants.ERROR, true, null); 
+//		}
+		else {
+			data.add(registrationDao.save(registration));
+			res = new ResponseModel(Constants.CREATE_RECORD, Constants.SUCCESS, true, data);
+		}
+    }
+	return res;
   }
 
   @Override

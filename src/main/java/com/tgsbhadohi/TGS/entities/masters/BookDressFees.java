@@ -1,5 +1,10 @@
 package com.tgsbhadohi.TGS.entities.masters;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,4 +34,8 @@ public class BookDressFees {
 //	private Integer boyDressFees;
 //	private Integer girlDressFees;
 	private boolean active;
+	@CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
 }

@@ -10,5 +10,6 @@ import com.tgsbhadohi.TGS.entities.masters.BookDressFees;
 @Repository
 public interface BookDressFeesDao extends JpaRepository<BookDressFees, Long>{
 	public List<BookDressFees> findByAcademicYearCodeAndStandard(String academicYearCode, String standard);
+	public Integer countByAcademicYearCodeAndStandard(String academicYearCode, String standard);
 	
 }

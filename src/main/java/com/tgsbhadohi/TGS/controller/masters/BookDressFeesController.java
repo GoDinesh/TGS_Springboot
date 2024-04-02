@@ -37,13 +37,14 @@ public class BookDressFeesController {
 	  
 	  @PostMapping("/insert")
 	  private ResponseEntity<ResponseModel> saveBookDressFees(@Valid @RequestBody BookDressFees bookDressFees) {
-		  try {
-			  	ResponseModel res = new ResponseModel( Constants.CREATE_RECORD, Constants.SUCCESS, true, bookDressFeesService.saveBookDressFees(bookDressFees));
-			  	return new ResponseEntity<>(res, HttpStatus.CREATED);
-		  }catch(Exception ex) {
-			  ResponseModel res = new ResponseModel( Constants.DUPLICATE_RECORD, Constants.ERROR, true, null);
-			  return new ResponseEntity<>(res, HttpStatus.CREATED);
-		  }
+//		  try {
+//			  	ResponseModel res = new ResponseModel( Constants.CREATE_RECORD, Constants.SUCCESS, true, bookDressFeesService.saveBookDressFees(bookDressFees));
+//			  	return new ResponseEntity<>(res, HttpStatus.CREATED);
+//		  }catch(Exception ex) {
+//			  ResponseModel res = new ResponseModel( Constants.DUPLICATE_RECORD, Constants.ERROR, true, null);
+//			  return new ResponseEntity<>(res, HttpStatus.CREATED);
+//		  }
+		  return new ResponseEntity<>(bookDressFeesService.saveBookDressFees(bookDressFees), HttpStatus.CREATED);
 	  }
 	  
 	  @PostMapping("/findbyid")

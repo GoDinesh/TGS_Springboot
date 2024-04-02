@@ -2,6 +2,9 @@ package com.tgsbhadohi.TGS.entities.fees;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 
@@ -35,7 +38,7 @@ public class Fees {
 	private String paymenttype;
 	private String paymentMode;
 	private Double amount;
-	private Date   paymentDate;
+	private String paymentDate;
 	private String paymentReceivedBy;
 	private String remarks;
 	private String studentName;
@@ -44,8 +47,14 @@ public class Fees {
 	@Transient
 	private String endDate;
 	
-//	@JsonBackReference
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	@JoinColumn( name="registrationId", referencedColumnName="registrationId", updatable = false)
-//	private Registration registrationId;
+	@CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
+	
+	
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn( name="registrationId", referencedColumnName="registrationId", updatable = false)
+	private Registration registrationId;
 }

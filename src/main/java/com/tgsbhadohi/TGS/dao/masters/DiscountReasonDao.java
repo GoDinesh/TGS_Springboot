@@ -11,4 +11,5 @@ import com.tgsbhadohi.TGS.entities.masters.DiscountReason;
 @Repository
 public interface DiscountReasonDao extends JpaRepository<DiscountReason, Long>{
 	public List<DiscountReason> findByActive(boolean status);
+	public Integer countByDiscountReason(String discountReason);
 }

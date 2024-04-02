@@ -28,8 +28,14 @@ import jakarta.persistence.SecondaryTables;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -176,7 +182,14 @@ public class Registration {
 	private double totalFees;
     private double paidFees;
     private double pendingFees;
+    private double discountAmount;
     private Boolean isTotalFeesPaid;
+    
+    @CreationTimestamp
+	private Date createdOn;
+	@UpdateTimestamp
+	private Date lastUpdatedOn;
+	
 	
 	@JsonManagedReference
 	@OneToOne(mappedBy="registrationId" , cascade = CascadeType.ALL)
@@ -193,9 +206,10 @@ public class Registration {
 	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
 	private List<StudentFeesStructure> studentFeesStructure;
 	
-//	@JsonManagedReference
-//	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
-//	private List<Fees> fees;
+	@JsonManagedReference
+	@OneToMany(mappedBy="registrationId" , cascade = CascadeType.ALL)
+	private List<Fees> fees;
+	
 	
 	
 //	@OneToMany(cascade = CascadeType.ALL)

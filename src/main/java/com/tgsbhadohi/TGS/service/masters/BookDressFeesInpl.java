@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.dao.masters.BookDressFeesDao;
 import com.tgsbhadohi.TGS.entities.masters.BookDressFees;
 @Service
@@ -20,10 +22,24 @@ public class BookDressFeesInpl implements BookDressFeesService {
 	}
 
 	@Override
-	public List<BookDressFees> saveBookDressFees(BookDressFees bookDressFees) {
+	public ResponseModel saveBookDressFees(BookDressFees bookDressFees) {
 		List<BookDressFees> data = new ArrayList<BookDressFees>();
-		data.add(bookDressFeesDao.save(bookDressFees));
-		return data;
+//		data.add(bookDressFeesDao.save(bookDressFees));
+//		return data;
+		ResponseModel res = new ResponseModel();
+        if(bookDressFees.getId()>0) {
+        	data.add(bookDressFeesDao.save(bookDressFees));
+			res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
+        }else {
+			if(bookDressFeesDao.countByAcademicYearCodeAndStandard(bookDressFees.getAcademicYearCode(), bookDressFees.getStandard())>0) {
+				res = new ResponseModel(Constants.DUPLICATE_RECORD, Constants.ERROR, true, null); 
+			}else {
+				data.add(bookDressFeesDao.save(bookDressFees));
+				res = new ResponseModel(Constants.CREATE_RECORD, Constants.SUCCESS, true, data);
+			}
+        }
+		return res;
+		
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.dao.masters.StandardDao;
 import com.tgsbhadohi.TGS.entities.masters.Standard;
 
@@ -28,10 +30,25 @@ public class StandardServiceImpl implements StandardService {
 	}
 
 	@Override
-	public List<Standard> saveStandard(Standard standard) {
+	public ResponseModel saveStandard(Standard standard) {
 		List<Standard> data = new ArrayList<Standard>();
-		data.add(standardDao.save(standard));
-		return data;
+//		data.add(standardDao.save(standard));
+//		return data;
+		ResponseModel res = new ResponseModel();
+        if(standard.getId()>0) {
+        	data.add(standardDao.save(standard));
+			res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
+        }else {
+			if(standardDao.countByClassCode( standard.getClassCode())>0) {
+				res = new ResponseModel(Constants.DUPLICATE_CLASS_CODE, Constants.ERROR, true, null); 
+			}else if(standardDao.countByClassName( standard.getClassName())>0) {
+				res = new ResponseModel(Constants.DUPLICATE_CLASS_NAME, Constants.ERROR, true, null);
+			}else {
+				data.add(standardDao.save(standard));
+				res = new ResponseModel(Constants.CREATE_RECORD, Constants.SUCCESS, true, data);
+			}
+        }
+		return res;
 	}
 
 	@Override

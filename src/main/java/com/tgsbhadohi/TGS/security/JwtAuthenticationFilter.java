@@ -36,6 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String requestHeader = request.getHeader("Authorization");
         String username = null;
         String token = null;
+        try {
         if (requestHeader != null && requestHeader.startsWith("Bearer")) {
             //looking good
             token = requestHeader.substring(7);
@@ -79,6 +80,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
 
+        }
+        }catch(Exception ex)
+        {
+        	System.out.println("Exception"+ex);
         }
 
         filterChain.doFilter(request, response);

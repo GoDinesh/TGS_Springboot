@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.dao.masters.AcademicYearDao;
 import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
 import com.tgsbhadohi.TGS.entities.masters.Standard;
@@ -31,10 +34,21 @@ public class AcademicYearImpl implements AcademicYearService{
 	}
 
 	@Override
-	public List<AcademicYear> saveAcademicYear(AcademicYear academicYear) {
+	public ResponseModel saveAcademicYear(AcademicYear academicYear) {
 		List<AcademicYear> data = new ArrayList<AcademicYear>();
-		data.add(academicYearDao.save(academicYear));
-		return data;
+        ResponseModel res = new ResponseModel();
+        if(academicYear.getId()>0) {
+        	data.add(academicYearDao.save(academicYear));
+			res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
+        }else {
+			if(academicYearDao.countByAcademicYear(academicYear.getAcademicYear())>0) {
+				res = new ResponseModel(Constants.DUPLICATE_RECORD, Constants.ERROR, true, null); 
+			}else {
+				data.add(academicYearDao.save(academicYear));
+				res = new ResponseModel(Constants.CREATE_RECORD, Constants.SUCCESS, true, data);
+			}
+        }
+		return res;
 		
 	}
 

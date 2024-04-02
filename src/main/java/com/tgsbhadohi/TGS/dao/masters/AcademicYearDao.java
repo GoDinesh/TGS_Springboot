@@ -8,4 +8,5 @@ import com.tgsbhadohi.TGS.entities.masters.AcademicYear;
 
 public interface AcademicYearDao extends JpaRepository<AcademicYear, Long>{
 	public List<AcademicYear> findByActive(boolean status);
+	public Integer countByAcademicYear(String academicYear);
 }

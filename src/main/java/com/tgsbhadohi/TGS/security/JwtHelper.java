@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,6 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 
 @Component
+@CrossOrigin("*")
 public class JwtHelper {
 
     //requirement :

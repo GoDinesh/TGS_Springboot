@@ -437,6 +437,32 @@ public class RegistrationController {
 		}
 	}
 	
+	@PostMapping("/update-book-fees-details")
+	private ResponseEntity<ResponseModel> updateBookFeesDetails(@RequestBody Registration registration) {
+		boolean flag = registrationService.updateBookFeesDetails(registration);
+		if(flag) {
+			ResponseModel res = new ResponseModel(Constants.SUCCESS, Constants.SUCCESS, false,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}else {
+			ResponseModel res = new ResponseModel(Constants.ERROR, Constants.ERROR, false,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
+	}
+	
+	
+	
+	@PostMapping("/update-student-details")
+	private ResponseEntity<ResponseModel> updateStudentDetails(@RequestBody Registration registration) {
+		boolean flag = registrationService.updateStudentDetails(registration);
+		if(flag) {
+			ResponseModel res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}else {
+			ResponseModel res = new ResponseModel(Constants.ERROR, Constants.ERROR, true,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
+	}
+	
 	
 
 }

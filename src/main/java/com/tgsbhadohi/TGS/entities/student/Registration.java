@@ -70,6 +70,8 @@ public class Registration {
 	//@NotBlank(message="Birth Date Can't be blank")
 	private String dateOfBirth; 
 	
+	private String dateOfAdmission;
+	
 	//@NotBlank(message="Standard Can't be blank")
 	private String standard;   
 	
@@ -87,7 +89,8 @@ public class Registration {
 	private String aadhaarNumber;
 	
 	//@NotBlank(message="Religion Can't be blank")
-	private String religion;   
+	private String religion;  
+	private String bloodGroup;
 	
 	//@NotBlank(message="Category Can't be blank")
 	private String category;   
@@ -97,6 +100,8 @@ public class Registration {
 	private String registrationNo;
 	
 	private String enrollmentType;
+	
+	private String idCardNumber;
 	
 	private Boolean isPromoted;
 	
@@ -178,12 +183,18 @@ public class Registration {
 	//@Size(min=2, max=100, message="Length of school address must be 2 - 100 character")
 	private String schoolAddress;
 	
+	private String temp;
 	
 	private double totalFees;
     private double paidFees;
     private double pendingFees;
     private double discountAmount;
     private Boolean isTotalFeesPaid;
+    
+    private double bookFees;
+    private double pendingBookFees;
+    private double paidBookFees;
+    private Boolean isTotalBookFeesPaid;
     
     @CreationTimestamp
 	private Date createdOn;

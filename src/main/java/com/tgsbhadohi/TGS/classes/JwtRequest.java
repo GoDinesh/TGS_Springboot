@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 @Builder
 public class JwtRequest {
-
+	private String roles;
 	private String email;
 	private String password;
 	

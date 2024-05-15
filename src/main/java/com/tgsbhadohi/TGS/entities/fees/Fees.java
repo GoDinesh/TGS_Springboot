@@ -34,6 +34,7 @@ public class Fees {
 
 	private String classCode;
 	private String academicYearCode;
+	private String academicYear;
 	private String registrationNo;
 	private String paymenttype;
 	private String paymentMode;
@@ -42,10 +43,22 @@ public class Fees {
 	private String paymentReceivedBy;
 	private String remarks;
 	private String studentName;
+	
+	private String receiptNo="";
+	private String idCardNumber="";
+	private String amountInWords="";
+	private String className ="";
+	private String rollnumber="";
+	private String balanceFees="";
+	private String balanceBookFees="";
+	private String updatedBy = "";
+	
+    
 	@Transient
 	private String startDate;
 	@Transient
 	private String endDate;
+	
 	
 	@CreationTimestamp
 	private Date createdOn;

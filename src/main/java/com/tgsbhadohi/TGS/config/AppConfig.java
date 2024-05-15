@@ -12,10 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@CrossOrigin("*")
 public class AppConfig {
 
 //	@Bean
@@ -37,6 +39,7 @@ public class AppConfig {
 	}
 	
 	@Bean
+	@CrossOrigin("*")
 	public WebMvcConfigurer corsConfig() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -44,7 +47,8 @@ public class AppConfig {
 				registry.addMapping("/**")
 						.allowedOrigins("*")
 						.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(),HttpMethod.DELETE.name())
-						.allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION);
+						.allowedHeaders("*")
+						.allowCredentials(false);
 			}
 		};
 	}

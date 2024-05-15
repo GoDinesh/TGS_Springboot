@@ -8,14 +8,15 @@ public class ResponseModel {
 	private String message;
 	private String status;
 	private boolean alert;
-	private List<?> data;
+	//private List<?> data;
+	private Object data;
 	
 	public ResponseModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ResponseModel(String message, String status, boolean alert, List<?> data) {
+	public ResponseModel(String message, String status, boolean alert, Object data) {
 		super();
 		this.message = message;
 		this.status = status;
@@ -39,7 +40,7 @@ public class ResponseModel {
 		this.status = status;
 	}
 
-	public List<?> getData() {
+	public Object getData() {
 		return data;
 	}
 

@@ -51,4 +51,14 @@ public interface RegistrationDao extends JpaRepository<Registration, Long>{
     		@Param("pendingFees") double pendingFees,
     		@Param("isTotalFeesPaid") boolean isTotalFeesPaid);
 	
+	
+	@Modifying
+	//@Query("update Registration r set r.paidFees = :paidFees, r.pendingFees= :pendingFees, r.isTotalFeesPaid= :isTotalFeesPaid, r.totalFees= :totalFees where r.registrationId = :registrationId")
+	@Query("update Registration r set r.paidBookFees = :paidBookFees, r.pendingBookFees= :pendingBookFees, r.isTotalBookFeesPaid= :isTotalBookFeesPaid where r.registrationId = :registrationId")
+	@Transactional
+    int updateBookFeesDetailsByRegistrationId(@Param("registrationId") Long registrationId,
+    		@Param("paidBookFees") double paidBookFees,
+    		@Param("pendingBookFees") double pendingBookFees,
+    		@Param("isTotalBookFeesPaid") boolean isTotalBookFeesPaid);
+		
 }

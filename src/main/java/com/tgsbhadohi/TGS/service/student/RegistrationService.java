@@ -16,4 +16,6 @@ public interface RegistrationService {
 	public List<Registration> filterListByKeyword(String keyword); 
 	public boolean updateStatus(Registration studentList[]);
 	public boolean updateFeesDetails(Registration registration);
+	public boolean updateBookFeesDetails(Registration registration);	
+	public boolean updateStudentDetails(Registration registration);
 }

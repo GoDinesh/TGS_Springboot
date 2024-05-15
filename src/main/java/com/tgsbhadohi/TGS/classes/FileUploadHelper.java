@@ -19,23 +19,21 @@ import com.tgsbhadohi.TGS.entities.student.Registration;
 @Component
 public class FileUploadHelper {
 
-	//public final String UPLOAD_DIR= new ClassPathResource("static/image/").getFile().getAbsolutePath(); //"C:\\Users\\dines\\Angular_project\\TGS\\src\\main\\resources\\static\\image";
-	public final String UPLOAD_DIR="";
-//	public FileUploadHelper()throws IOException
-//	{
-//		try {
-//			
-//		}catch(Exception ex) {
-//			System.out.println(ex);
-//		}
-//		
-//	}
+	public final String UPLOAD_DIR= "";//new ClassPathResource("static/image/").getFile().getAbsolutePath(); //"C:\\Users\\dines\\Angular_project\\TGS\\src\\main\\resources\\static\\image";
+	//public final String UPLOAD_DIR="";
+	public FileUploadHelper()throws IOException
+	{
+		try {
+			
+		}catch(Exception ex) {
+			System.out.println(ex);
+		}
+		
+	}
 	
 	public boolean uploadfile(MultipartFile file, Registration reg, boolean singleUpload) {
 		boolean flag = false;
 		try {
-			
-				//System.out.println(Paths.get(UPLOAD_DIR+File.separator+reg.getRegistrationNo()+File.separator+file.getOriginalFilename() ));
 				String PATH = "";
 				if(singleUpload) {
 					PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"ProfileImage";
@@ -43,16 +41,12 @@ public class FileUploadHelper {
 					PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"Documents";
 				}
 			    String directoryName = PATH;
-			    
-
+	
 			    File directory = new File(directoryName);
 			    if (! directory.exists()){
 			        directory.mkdirs();
-			        // If you require it to make the entire directory path including parents,
-			        // use directory.mkdirs(); here instead.
 			    }
 
-			    //File file = new File(directoryName + "/" + fileName);
 			    try{
 			    	Files.copy(file.getInputStream(),Paths.get(PATH+File.separator+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
 			    }
@@ -60,7 +54,6 @@ public class FileUploadHelper {
 			        e.printStackTrace();
 			        System.exit(-1);
 			    }
-			//Files.copy(file.getInputStream(),Paths.get(PATH+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
 			flag = true;
 		}catch (Exception e) {
 			System.out.println("File upload failed: " + e.getMessage());
@@ -75,11 +68,9 @@ public class FileUploadHelper {
 		}else {
 			PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"Documents/";
 		}
-	   
+
 		String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path(PATH).path(file.getOriginalFilename()).toUriString();
-//		System.out.println(temp);            
 		return temp;
-		
 	}
 	
 	public boolean deleteFile(UploadedDocuments document, Registration reg) {

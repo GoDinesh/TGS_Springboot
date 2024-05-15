@@ -60,7 +60,12 @@ public class FeesController {
 
   @PostMapping("/insert")
   private ResponseEntity<ResponseModel> saveFees(@Valid @RequestBody Fees fees) {
-	ResponseModel res = new ResponseModel(Constants.FEES_PAID, Constants.SUCCESS, true,feesService.saveFees(fees));
+	  ResponseModel res;
+	  try {
+		  	res = new ResponseModel(Constants.FEES_PAID, Constants.SUCCESS, true,feesService.saveFees(fees));
+	  }catch(Exception ex) {
+		    res = new ResponseModel(Constants.FAILURE, Constants.ERROR, true,null);
+	  }
     return new ResponseEntity<>(res, HttpStatus.CREATED);
   }
 
@@ -74,4 +79,54 @@ public class FeesController {
     );
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
+  
+  @PostMapping("/filter-by-receipt")
+  private ResponseEntity<ResponseModel> filterFeesByReceiptNumber(@RequestBody Fees fees) {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      feesService.filterFeesByReceiptNumber(fees.getReceiptNo())
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  @GetMapping("/get-receipt-number")
+  private ResponseEntity<ResponseModel> getReceiptNumber() {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      feesService.getReceiptNo()
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  @PostMapping("/pending-fees")
+  private ResponseEntity<ResponseModel> getPendingFees(@RequestBody Registration reg) {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      feesService.getPendingFees(reg)
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  
+  @PostMapping("/pending-fees-class-wise")
+  private ResponseEntity<ResponseModel> getTotalPendingFeesClassWise(@RequestBody Registration reg) {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      feesService.getTotalPendingFeesClassWise(reg)
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  
+
+  
+  
 }

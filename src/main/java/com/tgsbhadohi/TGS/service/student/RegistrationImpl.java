@@ -7,13 +7,12 @@ import com.tgsbhadohi.TGS.entities.student.Registration;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegistrationImpl implements RegistrationService {
@@ -94,7 +93,7 @@ public class RegistrationImpl implements RegistrationService {
         registration.getStudentName() +
         "%' and";
 
-      query = query + " 1 order by student_name";
+      query = query + " 1 order by standard,student_name";
       Query qry = entityManager.createNativeQuery(query, Registration.class);
 
       List<Registration> studentList = qry.getResultList();
@@ -155,5 +154,111 @@ public boolean updateFeesDetails(Registration registration) {
 		return false;
 	}
 	return true;
+}
+
+@Override
+public boolean updateBookFeesDetails(Registration registration) {
+	try {
+			registrationDao.updateBookFeesDetailsByRegistrationId(registration.getRegistrationId(),
+					registration.getPaidBookFees(),
+					registration.getPendingBookFees(),	
+					//registration.getTotalFees(),					
+					registration.getIsTotalBookFeesPaid());
+	} catch (Exception e) {
+		return false;
+	}
+	return true;
+}
+
+
+
+
+@Override
+@Transactional
+public boolean updateStudentDetails(Registration reg) {
+	 try {
+	      String query = "update registration as r, (select registration_id from registration where registration_no='"+reg.getRegistrationNo()+"') as p set";
+	      if (reg.getBloodGroup().length() > 0)
+	    	  query +=" r.blood_group ='"+reg.getBloodGroup()+"',";
+	      if (reg.getStudentName().length()>0)
+	    	  query +=" r.student_name = '"+reg.getStudentName()+"',";	      
+	      if (reg.getAadhaarNumber().length() > 0)
+	    	  query +=" r.aadhaar_number ='"+reg.getAadhaarNumber()+"',";
+	      if (reg.getArea().length() > 0)
+	    	  query +=" r.area ='"+reg.getArea()+"',";
+	      if (reg.getCategory().length() > 0)
+	    	  query +=" r.category='"+reg.getCategory()+"',";
+	      if (reg.getCity().length() > 0)
+	    	  query +=" r.city='"+reg.getCity()+"',";
+	      if (reg.getCountry().length() > 0)
+	    	  query +=" r.country='"+reg.getCountry()+"',";
+	      if (reg.getDateOfBirth().length() > 0)
+	    	  query +=" r.date_of_birth='"+reg.getDateOfBirth()+"',";
+	      if (reg.getDateOfAdmission().length() > 0)
+	    	  query +=" r.date_of_admission='"+reg.getDateOfAdmission()+"',";
+	      if (reg.getEmergencyContactPerson().length() > 0)
+	    	  query +=" r.emergency_contact_person='"+reg.getEmergencyContactPerson()+"',";
+	      if (reg.getEmergencyNumber().length() > 0)
+	    	  query +=" r.emergency_number='"+reg.getEmergencyNumber()+"',";
+	      if (reg.getFatherAadharNo().length() > 0)
+	    	  query +=" r.father_aadhar_no='"+reg.getFatherAadharNo()+"',";
+	      if (reg.getFatherContactNo().length() > 0)
+	    	  query +=" r.father_contact_no='"+reg.getFatherContactNo()+"',";
+	      if (reg.getFatherEmailId().length() > 0)
+	    	  query +=" r.father_email_id='"+reg.getFatherEmailId()+"',";
+	      if (reg.getFatherName().length() > 0)
+	    	  query +=" r.father_name='"+reg.getFatherName()+"'," ;
+	      if (reg.getFatherProfession().length() > 0)
+	    	  query +=" r.father_profession='"+reg.getFatherProfession()+"',";
+	      if (reg.getFatherQualification().length() > 0)
+	    	  query +=" r.father_qualification='"+reg.getFatherQualification()+"',";
+	      if (reg.getGender().length() > 0)
+	    	  query +=" r.gender='"+reg.getGender()+"',";
+	      if (reg.getGuardianName().length() > 0)
+	    	  query +=" r.guardian_name='"+reg.getGuardianName()+"',";
+	      if (reg.getMotherAadharNumber().length() > 0)
+	    	  query +=" r.mother_aadhar_number='"+reg.getMotherAadharNumber()+"',";
+	      if (reg.getMotherContactNumber().length() > 0)
+	    	  query +=" r.mother_contact_number='"+reg.getMotherContactNumber()+"',";
+	      if (reg.getMotherName().length() > 0)
+	    	  query +=" r.mother_name='"+reg.getMotherName()+"',";
+	      if (reg.getMotherProfession().length() > 0)
+	    	  query +=" r.mother_profession='"+reg.getMotherProfession()+"',";
+	      if (reg.getPassedClass().length() > 0)
+	    	  query +=" r.passed_class='"+reg.getPassedClass()+"',";
+	      if (reg.getPassedClassMarks().length() > 0)
+	    	  query +=" r.passed_class_marks='"+reg.getPassedClassMarks()+"',";
+	      if (reg.getPincode().length() > 0)
+	    	  query +=" r.pincode='"+reg.getPincode()+"',";
+	      if (reg.getReligion().length() > 0)
+	    	  query +=" r.religion='"+reg.getReligion()+"',";
+	      if (reg.getSchoolAddress().length() > 0)
+	    	  query +=" r.school_address='"+reg.getSchoolAddress()+"',";
+	      if (reg.getSchoolAddress().length() > 0)
+	    	  query +=" r.school_name='"+reg.getSchoolAddress()+"',";
+	      if (reg.getSection().length() > 0)
+	    	  query +=" r.section='"+reg.getSection()+"',";
+	      if (reg.getState().length() > 0)
+	    	  query +=" r.state='"+reg.getState()+"',";
+	      if (reg.getStudentName().length() > 0)
+	    	  query +=" r.student_name='"+reg.getStudentName()+"',";
+	      if (reg.getTcNumber().length() > 0)
+	    	  query +=" r.tc_number='"+reg.getTcNumber()+"'," ;
+	      
+	      query +=" r.temp='' where r.registration_id=p.registration_id";
+	      
+	      Query qry = entityManager.createNativeQuery(query, Registration.class);
+	      int status = qry.executeUpdate();
+	      System.out.println(status);
+	      if(status==0)
+	    	  return false;
+	      else
+	    	  return true;
+	      
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+
+	    return false;
 }
 }

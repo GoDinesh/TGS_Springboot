@@ -23,7 +23,7 @@ public interface RegistrationDao extends JpaRepository<Registration, Long>{
 	@Query(value = "SELECT COALESCE(max(roll_number+1) , 1 ) as roll_number from registration where academic_year_code = :academicYear and standard = :standard", nativeQuery = true)
 	int getRollNumber(@Param("academicYear") String academicYear, @Param("standard") String standard);
 	
-	@Query(value = "SELECT count(distinct(registration_no))+1 as roll_number FROM tgs.registration", nativeQuery = true)
+	@Query(value = "SELECT count(distinct(registration_no))+1 as roll_number FROM registration", nativeQuery = true)
 	int getRegistrationNumber();
 	
 	@Query("SELECT r FROM Registration r WHERE "

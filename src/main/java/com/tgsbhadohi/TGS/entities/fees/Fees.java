@@ -52,7 +52,7 @@ public class Fees {
 	private String balanceFees="";
 	private String balanceBookFees="";
 	private String updatedBy = "";
-	private String month="";
+	//private String month="";
 	
     
 	@Transient

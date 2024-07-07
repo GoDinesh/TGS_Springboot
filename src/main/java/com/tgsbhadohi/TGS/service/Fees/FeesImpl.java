@@ -84,6 +84,39 @@ public class FeesImpl implements FeesService {
 		
 	return null;
 	}
+	
+	
+	@Override
+	public List<Fees> todayFeesCollection(Fees fees) {
+	try {
+		String query = "SELECT * from fees where";
+		if(fees.getAcademicYearCode().length()>0)
+			query = query + " academic_year_code='"+fees.getAcademicYearCode()+"' and";
+		if(fees.getClassCode().length()>0)
+			query = query +" class_code='"+fees.getClassCode()+"' and";	
+		if(fees.getRegistrationNo().length()>0)
+			query = query +" registration_no='"+fees.getRegistrationNo()+"' and";
+		if(fees.getPaymentMode().length()>0)
+			query = query +" payment_mode='"+fees.getPaymentMode()+"' and";
+		if(fees.getPaymenttype().length()>0)
+			query = query +" paymenttype='"+fees.getPaymenttype()+"' and";
+		if(fees.getStartDate().length()>0 && !fees.getStartDate().equalsIgnoreCase("Invalid date"))
+			query = query +" CAST(created_on as DATE)>='"+fees.getStartDate()+"' and";
+		if(fees.getEndDate().length()>0 && !fees.getEndDate().equalsIgnoreCase("Invalid date"))
+			query = query +" CAST(created_on as DATE)<='"+fees.getEndDate()+"' and";
+		
+				
+		query= query+" 1";
+		System.out.println(query);
+		Query qry = entityManager.createNativeQuery(query,Fees.class);
+
+		List<Fees> feesList = qry.getResultList();
+        return feesList;
+	}catch (Exception e) {}
+		
+	return null;
+	}
+
 
 	@Override
 	public String getReceiptNo() {

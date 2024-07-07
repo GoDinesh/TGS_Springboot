@@ -80,6 +80,17 @@ public class FeesController {
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
   
+  @PostMapping("/today-fees-collection")
+  private ResponseEntity<ResponseModel> todayFeesCollection(@RequestBody Fees fees) {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      feesService.todayFeesCollection(fees)
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
   @PostMapping("/filter-by-receipt")
   private ResponseEntity<ResponseModel> filterFeesByReceiptNumber(@RequestBody Fees fees) {
     ResponseModel res = new ResponseModel(

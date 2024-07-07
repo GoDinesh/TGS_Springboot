@@ -11,6 +11,7 @@ public interface FeesService {
 	public List<Fees> saveFees(Fees fees);
 	public List<Fees> findByRegistrationNo(Fees fees);
 	public List<Fees> search(Fees fees);
+	public List<Fees> todayFeesCollection(Fees fees);
 	public String getReceiptNo();
 	public List<Fees> filterFeesByReceiptNumber(String receiptNo);
 	public List<Registration> getPendingFees(Registration registration);

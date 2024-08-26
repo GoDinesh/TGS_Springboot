@@ -244,6 +244,8 @@ public boolean updateStudentDetails(Registration reg) {
 	    	  query +=" r.student_name='"+reg.getStudentName()+"',";
 	      if (reg.getTcNumber().length() > 0)
 	    	  query +=" r.tc_number='"+reg.getTcNumber()+"'," ;
+	      if (reg.getBirthCirtificateSubmitted().length() > 0)
+	    	  query +=" r.birth_cirtificate_submitted='"+reg.getBirthCirtificateSubmitted()+"'," ;
 	      
 	      query +=" r.temp='' where r.registration_id=p.registration_id";
 	      

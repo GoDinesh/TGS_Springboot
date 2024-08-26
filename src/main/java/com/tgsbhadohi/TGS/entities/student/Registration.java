@@ -109,6 +109,8 @@ public class Registration {
 	
 	private Boolean isChecked;
 	
+	private String birthCirtificateSubmitted = "No";
+	
 	//Parent Info
 	//@Size(min=3, max=50, message="Father Name must be 3 - 50 character")
 	//@NotBlank(message="Father Name Can't be blank")

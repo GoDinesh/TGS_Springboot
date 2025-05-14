@@ -55,4 +55,11 @@ public class FeesStructureImpl implements FeesStructureService{
 	public List<FeesStructure> getAllActiveFeesStructure(Boolean status) {
 		return feesStructureDao.findByActive(status);
 	}
+	
+	@Override
+	public List<FeesStructure> getFeeStructureByAcademicYearCode(FeesStructure feesStructure) {
+		return feesStructureDao.findByAcademicYearCode(feesStructure.getAcademicYearCode());
+	}
+	
+	
 }

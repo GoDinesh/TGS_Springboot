@@ -48,5 +48,11 @@ public class FeesStructureController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
+	@PostMapping("/findbyacademicyearcode")
+	private ResponseEntity<ResponseModel> getFeeStructureByAcademicYearCode(@Valid @RequestBody FeesStructure feesStructure) {
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD,Constants.SUCCESS, false,feesStructureService.getFeeStructureByAcademicYearCode(feesStructure));
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
 	
 }

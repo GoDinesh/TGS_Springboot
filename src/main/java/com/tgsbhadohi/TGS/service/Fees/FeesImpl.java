@@ -178,7 +178,7 @@ public class FeesImpl implements FeesService {
 					if(installment.getInstallmentDiscount()!=null)
 						totalDiscount = totalDiscount + installment.getInstallmentDiscount();
 					}
-					if(installment.getDiscountAmount()>0) {
+					if(installment.getDiscountAmount()!=null) {
 						totalDiscount = totalDiscount + installment.getDiscountAmount();
 					}
 			}
@@ -191,7 +191,11 @@ public class FeesImpl implements FeesService {
 			fees.setAcademicYearCode(reg.getAcademicYearCode());
 			fees.setClassCode(reg.getStandard());
 			fees.setRegistrationNo(reg.getRegistrationNo());
-			fees.setEndDate(year+"-"+month+"-"+numDays);
+			if(month.equals("03")) {
+				fees.setEndDate(year+"-"+12+"-"+31);
+			}else {
+				fees.setEndDate(year+"-"+month+"-"+numDays);
+			}
 			fees.setPaymentMode("");
 			fees.setStartDate("");
 			fees.setPaymenttype("Fees");

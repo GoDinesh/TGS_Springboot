@@ -29,12 +29,14 @@ import com.tgsbhadohi.TGS.classes.FileUploadHelper;
 import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.entities.fees.StudentFeesInstallment;
 import com.tgsbhadohi.TGS.entities.fees.StudentFeesStructure;
+import com.tgsbhadohi.TGS.entities.masters.BookDressFees;
 import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.Installment;
 import com.tgsbhadohi.TGS.dao.student.UploadedDocumentsDao;
 import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
 import com.tgsbhadohi.TGS.entities.student.Registration;
+import com.tgsbhadohi.TGS.service.masters.BookDressFeesService;
 import com.tgsbhadohi.TGS.service.masters.FeesStructureService;
 import com.tgsbhadohi.TGS.service.student.RegistrationService;
 
@@ -57,6 +59,9 @@ public class RegistrationController {
 	
 	@Autowired
 	private FeesStructureService feesStructureService;
+	
+	@Autowired
+	private BookDressFeesService bookDressFeesService; 
 	
 	@PostMapping("/studentList")
 	private ResponseEntity<ResponseModel> getAllRegistration(@RequestBody Registration registration){
@@ -320,9 +325,17 @@ public class RegistrationController {
 						feesStructure.setClassCode(registration.getStandard());
 						feesStructure.setEnrollmentType("Old Student");
 						
+						BookDressFees bookDressFees = new BookDressFees();
+						bookDressFees.setAcademicYearCode(registration.getAcademicYearCode());
+						bookDressFees.setStandard(registration.getStandard());
+						
 						List<FeesStructure> feeStructureList = new ArrayList<>();
 						feeStructureList = feesStructureService.getFeeStructureById(feesStructure);
-						if(!feeStructureList.isEmpty()) {
+						
+						List<BookDressFees> bookDressFeesList = new ArrayList<>();
+						bookDressFeesList = bookDressFeesService.findByAcademicYearCodeAndStandard(bookDressFees);
+						
+						if(!feeStructureList.isEmpty() && !bookDressFeesList.isEmpty()) {
 										feesStructure = feeStructureList.get(0);
 										
 										StudentFeesStructure studentFeesStructure =new StudentFeesStructure();
@@ -348,9 +361,13 @@ public class RegistrationController {
 										List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
 										for (Installment installment : feesStructure.getInstallment()) {
 											try {
-												if(installment.getInstallmentDiscount().toString().length()>0) {
-													if(installment.getInstallmentDiscount()>0) {
-													installmentDiscount = installmentDiscount+installment.getInstallmentDiscount();
+												if(installment.getInstallmentDiscount()!=null) {
+													if(installment.getInstallmentDiscount().toString().length()>0) {
+														if(installment.getInstallmentDiscount()!=null) {
+														if(installment.getInstallmentDiscount()>0) {
+														installmentDiscount = installmentDiscount+installment.getInstallmentDiscount();
+														}
+														}
 													}
 												}
 											}catch(Exception ex) {
@@ -391,14 +408,29 @@ public class RegistrationController {
 										registration.setPendingFees(totalfees - installmentDiscount);
 										registration.setDiscountAmount(installmentDiscount);
 										
+										//add ssm related details
+										BookDressFees bookdressFees = new BookDressFees();
+										bookdressFees = bookDressFeesList.get(0);
+										registration.setBookFees(bookdressFees.getBookFees());
+										registration.setPaidBookFees(0);
+										registration.setPendingBookFees(bookdressFees.getBookFees());
+										registration.setIsTotalBookFeesPaid(false);
+										
+										//School Related data
+										registration.setSchoolName("Time Global School Bhadohi");
+										registration.setSchoolAddress("INDRA GANDHI MARG, CHAKSAIF BHADOHI");
+										
+										
+										
 										//generate new roll number
 										int rollnumber = registrationService.getRollNumber(registration);
 										registration.setRollNumber(rollnumber);
 										
 								//}
-										registrationService.saveRegistration(registration);
+										//System.out.println(registration);
+										registrationService.savePromotedRegistration(registration);
 						}else {
-							ResponseModel res = new ResponseModel(Constants.FEES_STRUCTURE_NOT_AVAILABLE,Constants.ERROR, true ,null);
+							ResponseModel res = new ResponseModel(Constants.FEES_STRUCTURE_OR_SSM_FEES_NOT_AVAILABLE,Constants.ERROR, true ,null);
 							return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 						}
 			}catch(Exception ex) {

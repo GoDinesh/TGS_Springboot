@@ -10,4 +10,5 @@ public interface FeesStructureService {
 	public ResponseModel saveFeesStructure(FeesStructure feesStructure);
 	public List<FeesStructure> getFeeStructureById(FeesStructure feesStructure);
 	public List<FeesStructure> getAllActiveFeesStructure(Boolean status);
+	public List<FeesStructure> getFeeStructureByAcademicYearCode(FeesStructure feesStructure);
 }

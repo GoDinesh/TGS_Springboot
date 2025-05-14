@@ -45,10 +45,10 @@ public class AppConfig {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("*")
-						.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(),HttpMethod.DELETE.name())
+						.allowedOrigins("https://tgsbhadohi.com")
+						.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(),HttpMethod.DELETE.name(),HttpMethod.OPTIONS.name())
 						.allowedHeaders("*")
-						.allowCredentials(false);
+						.allowCredentials(true);
 			}
 		};
 	}

@@ -4,6 +4,8 @@ import com.tgsbhadohi.TGS.classes.Constants;
 import com.tgsbhadohi.TGS.classes.ResponseModel;
 import com.tgsbhadohi.TGS.dao.student.RegistrationDao;
 import com.tgsbhadohi.TGS.entities.student.Registration;
+import com.tgsbhadohi.TGS.service.masters.BookDressFeesService;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -40,9 +42,6 @@ public class RegistrationImpl implements RegistrationService {
   public ResponseModel saveRegistration(Registration registration) {
     List<Registration> data = new ArrayList<Registration>();
     ResponseModel res = new ResponseModel();
-//    data.add(registrationDao.save(registration));
-   // return data;
-    
     if(registration.getRegistrationId()>0) {
     	data.add(registrationDao.save(registration));
 		res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
@@ -61,6 +60,23 @@ public class RegistrationImpl implements RegistrationService {
     }
 	return res;
   }
+  
+  
+  @Override
+  public ResponseModel savePromotedRegistration(Registration registration) {
+    List<Registration> data = new ArrayList<Registration>();
+    ResponseModel res = new ResponseModel();
+    if(registration.getRegistrationId()>0) {
+    	data.add(registrationDao.save(registration));
+		res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true, data);
+    }else {
+			data.add(registrationDao.save(registration));
+			res = new ResponseModel(Constants.CREATE_RECORD, Constants.SUCCESS, true, data);
+    }
+	return res;
+  }
+  
+  
 
   @Override
   public List<Registration> search(Registration registration) {
@@ -244,8 +260,10 @@ public boolean updateStudentDetails(Registration reg) {
 	    	  query +=" r.student_name='"+reg.getStudentName()+"',";
 	      if (reg.getTcNumber().length() > 0)
 	    	  query +=" r.tc_number='"+reg.getTcNumber()+"'," ;
-	      if (reg.getBirthCirtificateSubmitted().length() > 0)
+	      if (reg.getBirthCirtificateSubmitted()!=null) {
+	    	  if(reg.getBirthCirtificateSubmitted().length() > 0)
 	    	  query +=" r.birth_cirtificate_submitted='"+reg.getBirthCirtificateSubmitted()+"'," ;
+	      }
 	      
 	      query +=" r.temp='' where r.registration_id=p.registration_id";
 	      

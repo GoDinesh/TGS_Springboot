@@ -10,6 +10,7 @@ public interface RegistrationService {
 	public List<Registration> getAllRegistration(Registration registration);
 	public List<Registration> getRegistrationById(Long id);
 	public ResponseModel saveRegistration(Registration registration);
+	public ResponseModel savePromotedRegistration(Registration registration);
 	public List<Registration> search(Registration registration);
 	public Integer getRollNumber(Registration registration);
 	public Integer getRegistrationNumber();

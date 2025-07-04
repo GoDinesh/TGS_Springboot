@@ -17,7 +17,7 @@ public class Constants {
 	public static final String SERVICE_NOT_AVAILABLE = "Service not available";
 	public static final String FAILURE = "FAILURE";
 	public static final String FEES_PAID = "Fees paid successfully";
-	
+	public static final String DROPOUT_SUCCESSFULLY="Dropout Successfully";
 	//Masters Message
 	public static final String DUPLICATE_CLASS_CODE = "Duplicate class code.";
 	public static final String DUPLICATE_CLASS_NAME = "Duplicate class name.";

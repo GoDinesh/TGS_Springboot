@@ -131,6 +131,20 @@ public class FeesImpl implements FeesService {
 			return ""+(id+1);
 		}
 	}
+	
+	@Override
+	public String getReceiptNoAcademicYearWise(String academicYear) {
+		List<Fees> list = new ArrayList<Fees>();
+		Fees fees = new Fees();
+		list = feesDao.getFeesReceiptNumberAcademicYearWise(academicYear);
+		if(list.isEmpty())
+			return "1";
+		else {
+			fees = list.get(0);
+			Long id = fees.getReceiptIdAcademicYearWise();
+			return ""+(id+1);
+		}
+	}
 
 	@Override
 	public List<Fees> filterFeesByReceiptNumber(String receiptNo) {

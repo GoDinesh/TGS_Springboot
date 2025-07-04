@@ -113,6 +113,19 @@ public class FeesController {
     return new ResponseEntity<>(res, HttpStatus.OK);
   }
   
+  @PostMapping("/get-receipt-number-academicyear-wise")
+  private ResponseEntity<ResponseModel> getReceiptNumberAcademicYearWise(@RequestBody Fees fees) {
+    ResponseModel res = new ResponseModel(
+      Constants.GET_RECORD,
+      Constants.SUCCESS,
+      false,
+      feesService.getReceiptNoAcademicYearWise(fees.getAcademicYearCode())
+    );
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
+  
+  
+  
   @PostMapping("/pending-fees")
   private ResponseEntity<ResponseModel> getPendingFees(@RequestBody Registration reg) {
     ResponseModel res = new ResponseModel(

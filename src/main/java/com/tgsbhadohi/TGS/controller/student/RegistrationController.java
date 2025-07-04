@@ -277,6 +277,13 @@ public class RegistrationController {
 				registrationService.search(registration));
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
+	
+	@PostMapping("/dropout-list")
+	private ResponseEntity<ResponseModel> dropoutList(@RequestBody Registration registration) {
+		ResponseModel res = new ResponseModel(Constants.GET_RECORD, Constants.SUCCESS, false,
+				registrationService.dropoutList(registration));
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
 
 	@PostMapping("/get-rollnumber")
 	private ResponseEntity<ResponseModel> getRollNumber(@RequestBody Registration registration) {
@@ -494,6 +501,19 @@ public class RegistrationController {
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
 	}
+	
+	@PostMapping("/dropout_the_student")
+	private ResponseEntity<ResponseModel> dropoutStudent(@RequestBody Registration registration) {
+		boolean flag = registrationService.dropout(registration);
+		if(flag) {
+			ResponseModel res = new ResponseModel(Constants.DROPOUT_SUCCESSFULLY, Constants.SUCCESS, true,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}else {
+			ResponseModel res = new ResponseModel(Constants.ERROR, Constants.ERROR, true,null);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		}
+	}
+	
 	
 	
 

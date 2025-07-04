@@ -13,6 +13,7 @@ public interface FeesService {
 	public List<Fees> search(Fees fees);
 	public List<Fees> todayFeesCollection(Fees fees);
 	public String getReceiptNo();
+	public String getReceiptNoAcademicYearWise(String academicYear);
 	public List<Fees> filterFeesByReceiptNumber(String receiptNo);
 	public List<Registration> getPendingFees(Registration registration);
 	public List<String> getTotalPendingFeesClassWise(Registration registration);

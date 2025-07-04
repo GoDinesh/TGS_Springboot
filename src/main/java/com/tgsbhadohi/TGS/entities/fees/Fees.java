@@ -53,6 +53,7 @@ public class Fees {
 	private String balanceBookFees="";
 	private String updatedBy = "";
 	private String month="";
+	private Long receiptIdAcademicYearWise;
 	
     
 	@Transient

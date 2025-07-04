@@ -89,11 +89,13 @@ public class RegistrationImpl implements RegistrationService {
         " academic_year_code='" +
         registration.getAcademicYearCode() +
         "' and";
-      if (registration.getRegistrationNo().length() > 0) query =
-        query +
-        " registration_no='" +
-        registration.getRegistrationNo() +
-        "' and";
+      if(registration.getRegistrationNo()!=null) {
+	      if (registration.getRegistrationNo().length() > 0) query =
+	        query +
+	        " registration_no='" +
+	        registration.getRegistrationNo() +
+	        "' and";
+      }
       if (registration.getFatherContactNo().length() > 0) query =
         query +
         " ( father_contact_no='" +
@@ -108,7 +110,54 @@ public class RegistrationImpl implements RegistrationService {
         " student_name like '%" +
         registration.getStudentName() +
         "%' and";
+      
+      if(registration.getEnrollmentType()!=null) {
+    	  if (registration.getEnrollmentType().length() > 0) { 
+    		  query =
+    	        query +
+    	        " enrollment_type='" +
+    	        registration.getEnrollmentType()+
+    	        "' and";
+    	  }
+      }
+      
+      
+      query = query + " 1 order by standard,student_name";
+      Query qry = entityManager.createNativeQuery(query, Registration.class);
 
+      List<Registration> studentList = qry.getResultList();
+      return studentList;
+    } catch (Exception e) {}
+
+    return null;
+  }
+  
+  
+  @Override
+  public List<Registration> dropoutList(Registration registration) {
+    try {
+      String query = "SELECT * from registration where";
+      if (registration.getStandard().length() > 0) query =
+        query + " standard='" + registration.getStandard() + "' and";
+      if (registration.getAcademicYearCode().length() > 0) query =
+        query +
+        " academic_year_code='" +
+        registration.getAcademicYearCode() +
+        "' and";
+      if(registration.getRegistrationNo()!=null) {
+	      if (registration.getRegistrationNo().length() > 0) query =
+	        query +
+	        " registration_no='" +
+	        registration.getRegistrationNo() +
+	        "' and";
+      }
+      if(registration.getDropout()!=null) {
+    	  int value = registration.getDropout() ? 1 : 0;
+    		  query =
+    	        query +
+    	        " dropout='" +value+ "' and";
+      }
+      
       query = query + " 1 order by standard,student_name";
       Query qry = entityManager.createNativeQuery(query, Registration.class);
 
@@ -281,4 +330,31 @@ public boolean updateStudentDetails(Registration reg) {
 
 	    return false;
 }
+
+
+@Override
+@Transactional
+public boolean dropout(Registration reg) {
+	 try {
+	      String query = "update registration as r, (select registration_id from registration where registration_no='"+reg.getRegistrationNo()+"') as p set";
+	      query +=" r.dropout = true, r.is_active = false, r.dropout_date= CURDATE()";
+	      
+	     query +=" where r.registration_id=p.registration_id";
+	      //query +=" where r.registration_id=p.registration_id and r.registration_id='"+reg.getRegistrationNo()+"'";
+	      
+	      Query qry = entityManager.createNativeQuery(query, Registration.class);
+	      int status = qry.executeUpdate();
+	      System.out.println(status);
+	      if(status==0)
+	    	  return false;
+	      else
+	    	  return true;
+	      
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+
+	    return false;
+}
+
 }

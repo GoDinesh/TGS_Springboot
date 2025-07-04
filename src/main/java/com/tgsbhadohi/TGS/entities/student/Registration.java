@@ -198,6 +198,9 @@ public class Registration {
     private double paidBookFees;
     private Boolean isTotalBookFeesPaid;
     
+    private Boolean dropout;
+    private Date dropoutDate;
+    
     @CreationTimestamp
 	private Date createdOn;
 	@UpdateTimestamp

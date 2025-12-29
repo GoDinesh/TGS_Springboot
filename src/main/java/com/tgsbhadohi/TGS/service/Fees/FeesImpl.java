@@ -141,8 +141,12 @@ public class FeesImpl implements FeesService {
 			return "1";
 		else {
 			fees = list.get(0);
-			Long id = fees.getReceiptIdAcademicYearWise();
-			return ""+(id+1);
+			if(fees.getReceiptIdAcademicYearWise()!=null) {
+				Long id = fees.getReceiptIdAcademicYearWise();
+				return ""+(id+1);
+			}else {
+				return "1";
+			}
 		}
 	}
 

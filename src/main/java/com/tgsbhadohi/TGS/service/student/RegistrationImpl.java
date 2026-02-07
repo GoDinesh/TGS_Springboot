@@ -82,13 +82,17 @@ public class RegistrationImpl implements RegistrationService {
   public List<Registration> search(Registration registration) {
     try {
       String query = "SELECT * from registration where";
-      if (registration.getStandard().length() > 0) query =
-        query + " standard='" + registration.getStandard() + "' and";
-      if (registration.getAcademicYearCode().length() > 0) query =
-        query +
-        " academic_year_code='" +
-        registration.getAcademicYearCode() +
-        "' and";
+      if(registration.getStandard()!=null) {
+	      if (registration.getStandard().length() > 0) query =
+	        query + " standard='" + registration.getStandard() + "' and";
+      }
+      if(registration.getAcademicYearCode()!=null) {
+	      if (registration.getAcademicYearCode().length() > 0) query =
+	        query +
+	        " academic_year_code='" +
+	        registration.getAcademicYearCode() +
+	        "' and";
+      }
       if(registration.getRegistrationNo()!=null) {
 	      if (registration.getRegistrationNo().length() > 0) query =
 	        query +
@@ -96,31 +100,36 @@ public class RegistrationImpl implements RegistrationService {
 	        registration.getRegistrationNo() +
 	        "' and";
       }
-      if (registration.getFatherContactNo().length() > 0) query =
-        query +
-        " ( father_contact_no='" +
-        registration.getFatherContactNo() +
-        "' or mother_contact_number='" +
-        registration.getFatherContactNo() +
-        "' or emergency_number='" +
-        registration.getFatherContactNo() +
-        "' ) and";
-      if (registration.getStudentName().length() > 0) query =
-        query +
-        " student_name like '%" +
-        registration.getStudentName() +
-        "%' and";
-      
-      if(registration.getEnrollmentType()!=null) {
-    	  if (registration.getEnrollmentType().length() > 0) { 
-    		  query =
-    	        query +
-    	        " enrollment_type='" +
-    	        registration.getEnrollmentType()+
-    	        "' and";
-    	  }
+      if(registration.getFatherContactNo()!=null) {
+	      if (registration.getFatherContactNo().length() > 0) query =
+	        query +
+	        " ( father_contact_no='" +
+	        registration.getFatherContactNo() +
+	        "' or mother_contact_number='" +
+	        registration.getFatherContactNo() +
+	        "' or emergency_number='" +
+	        registration.getFatherContactNo() +
+	        "' ) and";
+      }
+      if(registration.getStudentName()!=null) {
+	      if (registration.getStudentName().length() > 0) query =
+	        query +
+	        " student_name like '%" +
+	        registration.getStudentName() +
+	        "%' and";
       }
       
+      if(registration.getEnrollmentType()!=null) {
+	      if(registration.getEnrollmentType()!=null) {
+	    	  if (registration.getEnrollmentType().length() > 0) { 
+	    		  query =
+	    	        query +
+	    	        " enrollment_type='" +
+	    	        registration.getEnrollmentType()+
+	    	        "' and";
+	    	  }
+	      }
+      }
       
       query = query + " 1 order by standard,student_name";
       Query qry = entityManager.createNativeQuery(query, Registration.class);

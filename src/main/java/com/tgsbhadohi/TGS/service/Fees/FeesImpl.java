@@ -59,21 +59,34 @@ public class FeesImpl implements FeesService {
 	public List<Fees> search(Fees fees) {
 	try {
 		String query = "SELECT * from fees where";
-		if(fees.getAcademicYearCode().length()>0)
-			query = query + " academic_year_code='"+fees.getAcademicYearCode()+"' and";
-		if(fees.getClassCode().length()>0)
-			query = query +" class_code='"+fees.getClassCode()+"' and";	
-		if(fees.getRegistrationNo().length()>0)
-			query = query +" registration_no='"+fees.getRegistrationNo()+"' and";
-		if(fees.getPaymentMode().length()>0)
-			query = query +" payment_mode='"+fees.getPaymentMode()+"' and";
-		if(fees.getPaymenttype().length()>0)
-			query = query +" paymenttype='"+fees.getPaymenttype()+"' and";
-		if(fees.getStartDate().length()>0 && !fees.getStartDate().equalsIgnoreCase("Invalid date"))
-			query = query +" payment_date>='"+fees.getStartDate()+"' and";
-		if(fees.getEndDate().length()>0 && !fees.getEndDate().equalsIgnoreCase("Invalid date"))
-			query = query +" payment_date<='"+fees.getEndDate()+"' and";
-		
+		if(fees.getAcademicYearCode()!=null) {
+			if(fees.getAcademicYearCode().length()>0)
+				query = query + " academic_year_code='"+fees.getAcademicYearCode()+"' and";
+		}
+		if(fees.getClassCode()!=null) {
+			if(fees.getClassCode().length()>0)
+				query = query +" class_code='"+fees.getClassCode()+"' and";
+		}
+		if(fees.getRegistrationNo()!=null) {
+			if(fees.getRegistrationNo().length()>0)
+				query = query +" registration_no='"+fees.getRegistrationNo()+"' and";
+		}
+		if(fees.getPaymentMode()!=null) {
+			if(fees.getPaymentMode().length()>0)
+				query = query +" payment_mode='"+fees.getPaymentMode()+"' and";
+		}
+		if(fees.getPaymenttype()!=null) {
+			if(fees.getPaymenttype().length()>0)
+				query = query +" paymenttype='"+fees.getPaymenttype()+"' and";
+		}
+		if(fees.getStartDate()!=null) {
+			if(fees.getStartDate().length()>0 && !fees.getStartDate().equalsIgnoreCase("Invalid date"))
+				query = query +" payment_date>='"+fees.getStartDate()+"' and";
+		}
+		if(fees.getEndDate()!=null) {
+			if(fees.getEndDate().length()>0 && !fees.getEndDate().equalsIgnoreCase("Invalid date"))
+				query = query +" payment_date<='"+fees.getEndDate()+"' and";
+		}
 				
 		query= query+" 1";
 		Query qry = entityManager.createNativeQuery(query,Fees.class);

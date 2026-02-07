@@ -1,0 +1,9 @@
+package com.tgsbhadohi.TGS.entities.sms;
+
+import lombok.Data;
+
+@Data
+public class OtpVerifyRequest {
+    private String phone;
+    private String otp;
+}

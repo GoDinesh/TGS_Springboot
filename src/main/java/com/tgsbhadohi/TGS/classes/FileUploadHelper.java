@@ -19,7 +19,7 @@ import com.tgsbhadohi.TGS.entities.student.Registration;
 @Component
 public class FileUploadHelper {
 
-	public final String UPLOAD_DIR= "image";//new ClassPathResource("static/image/").getFile().getAbsolutePath(); //"C:\\Users\\dines\\Angular_project\\TGS\\src\\main\\resources\\static\\image";
+	public final String UPLOAD_DIR= "";//new ClassPathResource("static/image/").getFile().getAbsolutePath(); //"C:\\Users\\dines\\Angular_project\\TGS\\src\\main\\resources\\static\\image";
 	//public final String UPLOAD_DIR="";
 	public FileUploadHelper()throws IOException
 	{
@@ -33,35 +33,12 @@ public class FileUploadHelper {
 	
 	public boolean uploadfile(MultipartFile file, Registration reg, boolean singleUpload) {
 		boolean flag = false;
-		 // 🔹 Validate file type
-		String type = file.getContentType();
-
-        if(!type.equals("image/png") && !type.equals("image/jpeg") && !type.equals("image/jpg") && !type.equals("image/jpeg")){
-            throw new RuntimeException("Invalid file type");
-        }
-        
-        
-        long size = file.getSize();
-
-	     // Minimum size 20KB
-	     if(size < 5 * 1024){
-	         throw new RuntimeException("Image size too small. Minimum 5KB required.");
-	     }
-	
-	     // Maximum size 2MB
-	     if(size > 25 * 1024){
-	         throw new RuntimeException("Image too large. Maximum 25KB allowed.");
-	     }
-        
-		
 		try {
 				String PATH = "";
 				if(singleUpload) {
-					//PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"ProfileImage";
-					PATH = UPLOAD_DIR+File.separator+reg.getRegistrationNo().replace("/", "")+File.separator+"ProfileImage";
+					PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"ProfileImage";
 				}else {
-					//PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"Documents";
-					PATH = UPLOAD_DIR+File.separator+reg.getRegistrationNo().replace("/", "")+File.separator+"Documents";
+					PATH = UPLOAD_DIR+File.separator+reg.getAcademicYearCode()+File.separator+reg.getStandard()+File.separator+reg.getRegistrationNo()+File.separator+"Documents";
 				}
 			    String directoryName = PATH;
 	
@@ -71,11 +48,11 @@ public class FileUploadHelper {
 			    }
 
 			    try{
-			    	Files.copy(file.getInputStream(),Paths.get(PATH+File.separator+file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+			    	Files.copy(file.getInputStream(),Paths.get(PATH+File.separator+file.getOriginalFilename() ), StandardCopyOption.REPLACE_EXISTING);
 			    }
 			    catch (IOException e){
 			        e.printStackTrace();
-			        throw new RuntimeException("File upload failed");
+			        System.exit(-1);
 			    }
 			flag = true;
 		}catch (Exception e) {
@@ -85,18 +62,14 @@ public class FileUploadHelper {
 	}
 	
 	public String generatelinkForImage(MultipartFile file, Registration reg, boolean singleUpload) {
-		
 		String PATH = "";
 		if(singleUpload) {
-			//PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"ProfileImage/";
-			PATH = "/image/"+reg.getRegistrationNo().replace("/", "")+"/"+"ProfileImage/";
+			PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"ProfileImage/";
 		}else {
-			//PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"Documents/";
-			PATH = "/image/"+reg.getRegistrationNo().replace("/", "")+"/"+"Documents/";
+			PATH = "/image/"+reg.getAcademicYearCode()+"/"+reg.getStandard()+"/"+reg.getRegistrationNo()+"/"+"Documents/";
 		}
 
-		//String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path(PATH).path(file.getOriginalFilename()).toUriString();
-		String temp = PATH+file.getOriginalFilename();
+		String temp = ServletUriComponentsBuilder.fromCurrentContextPath().path(PATH).path(file.getOriginalFilename()).toUriString();
 		return temp;
 	}
 	
@@ -104,7 +77,8 @@ public class FileUploadHelper {
         boolean result = false;
         
         // Build the path where the file should be
-        String filePath = UPLOAD_DIR + File.separator + reg.getRegistrationNo().replace("/", "") + File.separator +
+        String filePath = UPLOAD_DIR + File.separator + reg.getAcademicYearCode() + File.separator +
+            reg.getStandard() + File.separator + reg.getRegistrationNo() + File.separator +
             "Documents" + File.separator + document.getFileName();
             
         try {

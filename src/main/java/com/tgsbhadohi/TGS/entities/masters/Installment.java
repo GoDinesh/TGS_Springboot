@@ -46,7 +46,6 @@ public class Installment {
 	private Integer installmentDiscount=0;
 	private Integer installmentAmount=0;
 	private Integer installmentAmountAfterDiscount=0;
-	private String installmentMonth;
 	
 	@CreationTimestamp
 	private Date createdOn;

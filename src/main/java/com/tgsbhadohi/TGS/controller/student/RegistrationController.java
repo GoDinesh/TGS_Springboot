@@ -1,6 +1,5 @@
 package com.tgsbhadohi.TGS.controller.student;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,6 @@ import com.tgsbhadohi.TGS.entities.fees.StudentFeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.BookDressFees;
 import com.tgsbhadohi.TGS.entities.masters.FeesStructure;
 import com.tgsbhadohi.TGS.entities.masters.Installment;
-import com.tgsbhadohi.TGS.dao.masters.UploadProfileImageDao;
 import com.tgsbhadohi.TGS.dao.student.UploadedDocumentsDao;
 import com.tgsbhadohi.TGS.entities.masters.UploadedDocuments;
 import com.tgsbhadohi.TGS.entities.masters.UploadedProfileImage;
@@ -64,9 +62,6 @@ public class RegistrationController {
 	
 	@Autowired
 	private BookDressFeesService bookDressFeesService; 
-	
-	@Autowired
-	private UploadProfileImageDao uploadProfileImageDao;
 	
 	@PostMapping("/studentList")
 	private ResponseEntity<ResponseModel> getAllRegistration(@RequestBody Registration registration){
@@ -136,11 +131,9 @@ public class RegistrationController {
 								List<StudentFeesInstallment> studentFeesInstallmentsList = new ArrayList<>();
 								for (Installment installment : feesStructure.getInstallment()) {
 									try {
-										if(installment.getInstallmentDiscount()!=null) {
-											if(installment.getInstallmentDiscount().toString().length()>0) {
-												if(installment.getInstallmentDiscount()>0) {
-													installmentDiscount=installmentDiscount+ installment.getInstallmentDiscount();
-												}
+										if(installment.getInstallmentDiscount().toString().length()>0) {
+											if(installment.getInstallmentDiscount()>0) {
+												installmentDiscount=installmentDiscount+ installment.getInstallmentDiscount();
 											}
 										}
 									}catch(Exception ex) {
@@ -156,7 +149,6 @@ public class RegistrationController {
 									studentFeesInstallment.setInstallmentDate(installment.getInstallmentDate());
 									studentFeesInstallment.setInstallmentAmount(installment.getInstallmentAmount());
 									studentFeesInstallment.setInstallmentType(installment.getInstallmentType());
-									studentFeesInstallment.setInstallmentMonth(installment.getInstallmentMonth());
 									studentFeesInstallment.setInstallmentDiscount(installment.getInstallmentDiscount());
 									studentFeesInstallment.setInstallmentAmountAfterDiscount(installment.getInstallmentAmountAfterDiscount());
 									studentFeesInstallment.setDiscountReason("");
@@ -398,7 +390,6 @@ public class RegistrationController {
 											studentFeesInstallment.setInstallmentDate(installment.getInstallmentDate());
 											studentFeesInstallment.setInstallmentAmount(installment.getInstallmentAmount());
 											studentFeesInstallment.setInstallmentType(installment.getInstallmentType());
-											studentFeesInstallment.setInstallmentMonth(installment.getInstallmentMonth());
 											studentFeesInstallment.setInstallmentDiscount(installment.getInstallmentDiscount());
 											studentFeesInstallment.setInstallmentAmountAfterDiscount(installment.getInstallmentAmountAfterDiscount());
 											studentFeesInstallment.setDiscountReason("");
@@ -509,85 +500,6 @@ public class RegistrationController {
 			ResponseModel res = new ResponseModel(Constants.ERROR, Constants.ERROR, true,null);
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
-	}
-	
-	@PostMapping("/update-profile-image")
-	public ResponseEntity<ResponseModel> updateProfileImage(
-	        @RequestParam("profileImage") MultipartFile file,
-	        @RequestParam("requestData") String reqData) {
-		
-		String type = file.getContentType();
-
-        if(!type.equals("image/png") && !type.equals("image/jpeg") && !type.equals("image/jpg") && !type.equals("image/jpeg")){
-        	ResponseModel res = new ResponseModel("Invalid file type", Constants.ERROR, true,null);
-    		return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
-        }
-        
-        
-        long size = file.getSize();
-
-	     // Minimum size 20KB
-	     if(size < 5 * 1024){
-	    	 ResponseModel res = new ResponseModel("Image size too small. Minimum 5KB required.", Constants.ERROR, true,null);
-	    	 return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
-	     }
-	
-	     // Maximum size 2MB
-	     if(size > 25 * 1024){
-	    	 ResponseModel res = new ResponseModel("Image too large. Maximum 25KB allowed.", Constants.ERROR, true,null);
-	    	 return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
-	     }
-
-
-	    Registration reg = new Registration();
-
-	    try {
-	        ObjectMapper mapper = new ObjectMapper();
-	        reg = mapper.readValue(reqData, Registration.class);
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	    }
-
-	    // 🔹 Delete old physical file
-	    String path = "image/" + reg.getRegistrationNo().replace("/", "") + "/ProfileImage";
-	    File folder = new File(path);
-
-	    if (folder.exists()) {
-	        File[] files = folder.listFiles();
-	        if (files != null) {
-	            for (File f : files) {
-	                f.delete();
-	            }
-	        }
-	    }
-
-	    if (file != null) {
-
-	        boolean flag = fileUploadHelper.uploadfile(file, reg, true);
-
-	        if (flag) {
-
-	            String urlString = fileUploadHelper.generatelinkForImage(file, reg, true);
-
-	            // 🔥 FETCH EXISTING RECORD
-	            UploadedProfileImage profileImage =
-	                    uploadProfileImageDao.findByRegistrationId(reg);
-
-	            if (profileImage == null) {
-	                // ➕ INSERT
-	                profileImage = new UploadedProfileImage();
-	                profileImage.setRegistrationId(reg);
-	            }
-
-	            // 🔄 UPDATE DATA
-	            profileImage.setLink(urlString);
-	            profileImage.setFileName(file.getOriginalFilename());
-
-	            uploadProfileImageDao.save(profileImage);
-	        }
-	    }
-	    ResponseModel res = new ResponseModel(Constants.UPDATE_RECORD, Constants.SUCCESS, true,null);
-		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
 	@PostMapping("/dropout_the_student")

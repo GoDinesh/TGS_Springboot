@@ -107,8 +107,8 @@ public class RegistrationImpl implements RegistrationService {
 	        registration.getFatherContactNo() +
 	        "' or mother_contact_number='" +
 	        registration.getFatherContactNo() +
-	        //"' or emergency_number='" +
-//	        registration.getFatherContactNo() +
+	        "' or emergency_number='" +
+	        registration.getFatherContactNo() +
 	        "' ) and";
       }
       if(registration.getStudentName()!=null) {

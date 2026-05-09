@@ -33,10 +33,13 @@ public class UploadedProfileImage {
 //	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	private long id;
-	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
+	
 	@JsonBackReference
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn( name="registrationId", referencedColumnName="registrationId")
 	private Registration registrationId;
 	

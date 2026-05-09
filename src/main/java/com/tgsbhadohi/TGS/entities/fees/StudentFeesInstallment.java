@@ -39,6 +39,7 @@ public class StudentFeesInstallment {
 	private String academicYearCode;
 	private String installmentNumber;
 	private String installmentType;
+	private String installmentMonth;
 	private String discountReason;
 	private Integer discountAmount=0;
 	private String installmentDate;

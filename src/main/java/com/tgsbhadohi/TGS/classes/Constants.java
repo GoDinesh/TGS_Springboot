@@ -25,5 +25,10 @@ public class Constants {
 	public static final String AADHAR_NUMBER_ALREADY_AVAILABLE = "Aadhar Number already available";
 	public static final String MOBILE_NUMBER_ALREADY_AVAILABLE = "Mobile Number already available";
 	
+	public static final String FEES_NOTIFICATION = "Fees";
+	public static final String HOLIDAY_NOTIFICATION= "Holiday";
+	public static final String EXAMINATION_NOTIFICATION= "Examination";
+	public static final String EVENT_NOTIFICATION= "Event";
+	public static final String GENERAL_NOTIFICATION= "General";
 	
 }

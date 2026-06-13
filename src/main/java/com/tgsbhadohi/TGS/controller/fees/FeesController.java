@@ -1,11 +1,14 @@
 package com.tgsbhadohi.TGS.controller.fees;
 
 import com.tgsbhadohi.TGS.classes.Constants;
+import com.tgsbhadohi.TGS.classes.NotificationHelper;
 import com.tgsbhadohi.TGS.classes.ResponseModel;
+import com.tgsbhadohi.TGS.dao.notification.NotificationDao;
 import com.tgsbhadohi.TGS.entities.fees.Fees;
+import com.tgsbhadohi.TGS.entities.notifications.NotificationMessage;
 import com.tgsbhadohi.TGS.entities.student.Registration;
 import com.tgsbhadohi.TGS.service.Fees.FeesService;
-import com.tgsbhadohi.TGS.service.student.RegistrationService;
+import com.tgsbhadohi.TGS.service.notification.NotificationService;
 
 import jakarta.validation.Valid;
 
@@ -15,6 +18,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +36,13 @@ public class FeesController {
   private FeesService feesService;
   
   @Autowired
-  private RegistrationService registrationService;
+  private NotificationService notificationService;
+  
+  @Autowired
+  private NotificationHelper notificationHelper;
+  
+  @Autowired
+  private SimpMessagingTemplate messagingTemplate;
 
   @GetMapping("/findall")
   private ResponseEntity<ResponseModel> getAllFees() {
@@ -63,6 +73,18 @@ public class FeesController {
 	  ResponseModel res;
 	  try {
 		  	res = new ResponseModel(Constants.FEES_PAID, Constants.SUCCESS, true,feesService.saveFees(fees));
+		  	
+		  	// send Fees notification
+		  	
+		  	
+		  	NotificationMessage notification = notificationHelper.feesNotificationData(fees);
+		  	List<NotificationMessage> notificationList = new ArrayList<NotificationMessage>();
+		  	notificationList.add(notification);		  	
+		  	List<NotificationMessage> feesNotificationMessage =  notificationService.saveAll(notificationList);
+		  	if(feesNotificationMessage!=null) {
+		  		return new ResponseEntity<>(res, HttpStatus.CREATED);
+		  	}
+
 	  }catch(Exception ex) {
 		    res = new ResponseModel(Constants.FAILURE, Constants.ERROR, true,null);
 	  }
